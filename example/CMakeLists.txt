@@ -78,5 +78,5 @@ target_link_libraries(${target}
 
 # install .exe and generated .fxo files
 install(TARGETS ${target} DESTINATION bin)
-FILE(GLOB files "${CMAKE_BINARY_DIR}/*.fxo")
+FILE(GLOB files "${CMAKE_BINARY_DIR}/example/*.fxo")
 INSTALL(FILES ${files} DESTINATION bin)
