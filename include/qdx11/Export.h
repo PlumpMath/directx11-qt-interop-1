@@ -49,4 +49,4 @@
     #  define QDX11_API
 #endif
 
-#endif // CUMPL_EXPORT_H
+#endif // QDX11_EXPORT_H
