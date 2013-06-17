@@ -1,0 +1,11 @@
+build/*
+build_debug/*
+install/*
+data/*
+*.lib
+*.dll
+*.exp
+*.exe
+*.obj
+*.fxo
+*.cod
