@@ -50,7 +50,7 @@ class QDX11_API BasicRenderer : public QThread
 	Q_OBJECT
 
 public:
-	BasicRenderer(WId hwnd, InteropState* InteropState, int width, int height);
+	BasicRenderer(WId hwnd, InteropState* InteropState, int width, int height, int frameLimiter = 60);
 	virtual ~BasicRenderer();
 
 signals:
@@ -76,6 +76,7 @@ protected:
 	unsigned int m_4xMSAAQuality;
 	bool m_enable4xMSAA;
 	PerformanceTimer m_timer;
+    float m_frameLimiter;
 
 	ID3D11Device* m_device;
 	ID3D11DeviceContext* m_context;

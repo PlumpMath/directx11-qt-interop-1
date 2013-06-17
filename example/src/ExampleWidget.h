@@ -48,6 +48,7 @@ signals:
 
 protected:
     virtual void mouseMoveEvent(QMouseEvent* e);
+    virtual void wheelEvent(QWheelEvent* e);
 };
 
 #endif // EXAMPLE_WIDGET_H

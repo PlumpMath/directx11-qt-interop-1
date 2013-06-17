@@ -40,13 +40,15 @@
 #include <string>
 #include <sstream>
 
-BasicRenderer::BasicRenderer(WId hwnd, InteropState* InteropState, int width, int height)
+#include <iostream>
+
+BasicRenderer::BasicRenderer(WId hwnd, InteropState* InteropState, int width, int height, int frameLimiter)
 	: QThread(),
 	  m_windowHandle(hwnd),
 	  m_driverType(D3D_DRIVER_TYPE_HARDWARE),
 	  m_width(0),
 	  m_height(0),
-	  m_enable4xMSAA(false),
+	  m_enable4xMSAA(true),
 	  m_4xMSAAQuality(0),
 	  m_device(0),
 	  m_context(0),
@@ -54,7 +56,8 @@ BasicRenderer::BasicRenderer(WId hwnd, InteropState* InteropState, int width, in
 	  m_depthStencilBuffer(0),
 	  m_renderTargetView(0),
 	  m_depthStencilView(0),
-	  m_InteropState(InteropState)
+	  m_InteropState(InteropState),
+      m_frameLimiter(1.0f / frameLimiter)
 {
 	ZeroMemory(&m_viewport, sizeof(D3D11_VIEWPORT));
 }
@@ -71,15 +74,21 @@ bool BasicRenderer::init()
 void BasicRenderer::run()
 {
 	// rendering loop
+    static float elapsedTime = 0.0f;
 
 	m_timer.start();
 	while (true)
 	{
-		handleInput();
-		m_timer.perFrame();
-		calculateFPS();
-		updateScene();
-		render();
+        handleInput();
+        m_timer.perFrame();
+        
+        if((m_timer.totalTime() - elapsedTime) >= m_frameLimiter)
+        {
+            calculateFPS();
+            updateScene();
+            render();
+            elapsedTime += m_frameLimiter;
+        }
 	}
 }
 

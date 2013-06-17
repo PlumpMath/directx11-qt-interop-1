@@ -27,7 +27,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 cmake_minimum_required(VERSION 2.8)
-project(DX11QtInterop)
+project(QDX11)
 set(target DX11QtInterop)
 
 add_definitions(-D_UNICODE)

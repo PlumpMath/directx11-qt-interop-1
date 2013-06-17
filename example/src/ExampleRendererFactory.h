@@ -34,9 +34,10 @@
 class ExampleRendererFactory : public IRendererFactory
 {
 public:
-    ExampleRendererFactory();
+    ExampleRendererFactory(int width, int height, int frameLimiter);
     ~ExampleRendererFactory();
-    virtual BasicRenderer* create(WId windowHandle, InteropState* state, int width, int height);
+
+    virtual BasicRenderer* create(WId windowHandle, InteropState* state);
 };
 
 #endif // EXAMPLE_RENDERER_FACTORY_H

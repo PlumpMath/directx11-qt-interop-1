@@ -38,8 +38,18 @@
 class QDX11_API IRendererFactory
 {
 public:
+    IRendererFactory(int width, int height, int frameLimiter) : m_width(width), m_height(height), m_frameLimiter(frameLimiter) {}
     virtual ~IRendererFactory() {};
-    virtual BasicRenderer* create(WId windowHandle, InteropState* state, int width, int height) = 0;
+    virtual BasicRenderer* create(WId windowHandle, InteropState* state) = 0;
+
+    inline int width() {return m_width;}
+    inline int height() {return m_height;}
+    inline int frameLimiter() {return m_frameLimiter;}
+
+protected:
+    int m_width;
+    int m_height;
+    int m_frameLimiter;
 };
 
 #endif // INTERFACE_RENDERER_FACTORY_H

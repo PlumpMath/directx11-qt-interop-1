@@ -43,7 +43,7 @@ Dx11Viewer::Dx11Viewer(QWidget* parent, Qt::WFlags flags)
 {
     ui.setupUi(this);
 
-    m_rendererFactory = new ExampleRendererFactory;
+    m_rendererFactory = new ExampleRendererFactory(width(), height(), 250);
 	m_dx11Widget = new ExampleWidget(m_rendererFactory, this);
 	setCentralWidget(m_dx11Widget);
 

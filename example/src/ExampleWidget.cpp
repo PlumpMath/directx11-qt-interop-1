@@ -83,6 +83,18 @@ void ExampleWidget::mouseMoveEvent(QMouseEvent* e)
     m_prevMousePos = e->pos();
 }
 
+void ExampleWidget::wheelEvent(QWheelEvent* e)
+{
+    //
+    // see http://harmattan-dev.nokia.com/docs/platform-api-reference/xml/daily-docs/libqt4/qwheelevent.html
+    //
+    float d = 0.5f * static_cast<float>(e->delta() / 120);
+    float radius = m_interopState->getRadius() + d;
+
+    radius = Math::clamp(radius, 5.0f, 20.0f);
+    m_interopState->setRadius(radius);
+}
+
 void ExampleWidget::onFPSChanged(float fps, float mspf)
 {
     std::stringstream sstream;

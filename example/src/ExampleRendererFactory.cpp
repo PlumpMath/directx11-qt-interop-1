@@ -29,7 +29,8 @@
 #include "ExampleRendererFactory.h"
 #include "SimpleDx11Example.h"
 
-ExampleRendererFactory::ExampleRendererFactory()
+ExampleRendererFactory::ExampleRendererFactory(int width, int height, int frameLimiter)
+    : IRendererFactory(width, height, frameLimiter)
 {
 
 }
@@ -39,7 +40,7 @@ ExampleRendererFactory::~ExampleRendererFactory()
 
 }
 
-BasicRenderer* ExampleRendererFactory::create(WId windowHandle, InteropState* state, int width, int height)
+BasicRenderer* ExampleRendererFactory::create(WId windowHandle, InteropState* state)
 {
-    return new SimpleDx11Example(windowHandle, state, width, height);
+    return new SimpleDx11Example(windowHandle, state, m_width, m_height, m_frameLimiter);
 }

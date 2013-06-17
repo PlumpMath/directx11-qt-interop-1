@@ -46,8 +46,8 @@ struct Vertex
 	XMFLOAT4 Color;
 };
 
-SimpleDx11Example::SimpleDx11Example(WId hwnd, InteropState* InteropState, int width, int height)
-	: BasicRenderer(hwnd, InteropState, width, height),
+SimpleDx11Example::SimpleDx11Example(WId hwnd, InteropState* InteropState, int width, int height, int frameLimiter)
+	: BasicRenderer(hwnd, InteropState, width, height, frameLimiter),
 	  m_vb(0),
 	  m_ib(0),
 	  m_fx(0),
@@ -101,6 +101,8 @@ SimpleDx11Example::~SimpleDx11Example()
 
 void SimpleDx11Example::render()
 {
+    //static int counter = 0;
+    //std::cout << "render " << counter++ << std::endl;
 	assert(m_context);
 	assert(m_swapChain);
 

@@ -42,7 +42,7 @@ Dx11Widget::Dx11Widget(IRendererFactory* factory, QWidget* parent /* = NULL */, 
 	  m_rightMouseDown(false)
 {
 	m_interopState = new InteropState();
-    m_renderThread = factory->create(winId(), m_interopState, width(), height());
+    m_renderThread = factory->create(winId(), m_interopState);
 	m_renderThread->start();
 }
 
@@ -94,4 +94,14 @@ void Dx11Widget::mouseReleaseEvent(QMouseEvent* e)
 void Dx11Widget::mouseMoveEvent(QMouseEvent* e)
 {
     m_prevMousePos = e->pos();
+}
+
+void Dx11Widget::wheelEvent(QWheelEvent* e)
+{
+
+}
+
+void Dx11Widget::keyPressEvent(QKeyEvent* e)
+{
+
 }

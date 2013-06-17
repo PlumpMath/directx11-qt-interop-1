@@ -53,11 +53,10 @@ set(sources
 	
 qt4_auto_wrap(sources ${sources})
 add_library(${target} SHARED ${sources})
-
-include_directories(${target} ${HEADER_PATH})
+message(STATUS "dx include dirs ${DX11_INCLUDE_DIRS}")
+include_directories(${target} ${DX11_INCLUDE_DIRS} ${HEADER_PATH})
 target_link_libraries(${target}
 	${DX11_LIBRARIES}
-	#${QT_QTMAIN_LIBRARY}
 	${QT_LIBRARIES}
 )
 

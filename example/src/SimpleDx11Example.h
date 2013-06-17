@@ -34,10 +34,10 @@
 class SimpleDx11Example : public BasicRenderer
 {
 public:
-	SimpleDx11Example(WId hwnd, InteropState* InteropState, int width, int height);
+	SimpleDx11Example(WId hwnd, InteropState* InteropState, int width, int height, int frameLimiter = 60);
 	virtual ~SimpleDx11Example();
 
-private:
+protected:
 	virtual bool init();
 	virtual void handleInput();
 	virtual void updateScene();
