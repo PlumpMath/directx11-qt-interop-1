@@ -26,36 +26,61 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef SIMPLE_DX11_EXAMPLE_H
-#define SIMPLE_DX11_EXAMPLE_H
+#include "CamState.h"
+#include "Math.h"
 
-#include <qdx11/BasicRenderer.h>
-
-class ExampleRenderer : public BasicRenderer
+CamState::CamState()
+    : InteropState(),
+      m_phi(1.5f * Math::Pi),
+      m_theta(0.25f * Math::Pi),
+      m_radius(5)
 {
-public:
-	ExampleRenderer(WId hwnd, InteropState* InteropState, int width, int height, int frameLimiter = 60);
-	virtual ~ExampleRenderer();
+}
 
-protected:
-	virtual bool init();
-	virtual void handleInput();
-	virtual void updateScene();
-	virtual void render();
+void CamState::setTheta(float value)
+{
+	m_mutex.lock();
+	m_theta = value;
+	m_mutex.unlock();
+}
 
-	void createGeomBuffers();
-	void createVertexLayouts();
-	void loadFX();
+void CamState::setPhi(float value)
+{
+	m_mutex.lock();
+	m_phi = value;
+	m_mutex.unlock();
+}
 
-private:
-	ID3D11Buffer* m_vb;
-	ID3D11Buffer* m_ib;
-	ID3DX11Effect* m_fx;
-	ID3DX11EffectTechnique* m_technique;
-	ID3DX11EffectMatrixVariable* m_fxWorldViewProjection;
-	ID3D11InputLayout* m_inputLayout;
-	XMFLOAT4X4 m_worldMatrix;
-	XMFLOAT4X4 m_viewMatrix;
-	XMFLOAT4X4 m_projectionMatrix;
-};
-#endif // SIMPLE_DX11_EXAMPLE_H
+void CamState::setRadius(float value)
+{
+	m_mutex.lock();
+	m_radius = value;
+	m_mutex.unlock();
+}
+
+float CamState::theta()
+{
+	m_mutex.lock();
+	float theta = m_theta;
+	m_mutex.unlock();
+
+	return theta;
+}
+
+float CamState::phi()
+{
+	m_mutex.lock();
+	float phi = m_phi;
+	m_mutex.unlock();
+
+	return phi;
+}
+
+float CamState::radius()
+{
+	m_mutex.lock();
+	float radius = m_radius;
+	m_mutex.unlock();
+
+	return m_radius;
+}

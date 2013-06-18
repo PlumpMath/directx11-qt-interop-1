@@ -30,11 +30,12 @@
 #define SIMPLE_DX11_EXAMPLE_H
 
 #include <qdx11/BasicRenderer.h>
+class CamState;
 
 class ExampleRenderer : public BasicRenderer
 {
 public:
-	ExampleRenderer(WId hwnd, InteropState* InteropState, int width, int height, int frameLimiter = 60);
+	ExampleRenderer(WId hwnd, InteropState* interopState, int width, int height, int frameLimiter = 60);
 	virtual ~ExampleRenderer();
 
 protected:
@@ -46,6 +47,7 @@ protected:
 	void createGeomBuffers();
 	void createVertexLayouts();
 	void loadFX();
+    CamState* asCamState(InteropState* interopState);
 
 private:
 	ID3D11Buffer* m_vb;

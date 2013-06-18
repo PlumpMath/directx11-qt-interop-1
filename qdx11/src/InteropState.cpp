@@ -29,89 +29,38 @@
 #include "InteropState.h"
 
 InteropState::InteropState()
-    : m_width(800),
-      m_height(600),
-      m_phi(1.5f * 3.14f),
-      m_theta(0.25f * 3.14f),
-      m_radius(5) // #TODO
+    : m_viewportWidth(0),
+      m_viewportHeight(0)
 {
 }
 
-void InteropState::setTheta(float value)
+void InteropState::setViewportWidth(int value)
 {
 	m_mutex.lock();
-	m_theta = value;
+	m_viewportWidth = value;
 	m_mutex.unlock();
 }
 
-void InteropState::setPhi(float value)
+void InteropState::setViewportHeight(int value)
 {
 	m_mutex.lock();
-	m_phi = value;
+	m_viewportHeight = value;
 	m_mutex.unlock();
 }
 
-void InteropState::setRadius(float value)
+int InteropState::viewportWidth()
 {
 	m_mutex.lock();
-	m_radius = value;
-	m_mutex.unlock();
-}
-
-void InteropState::setWidth(int value)
-{
-	m_mutex.lock();
-	m_width = value;
-	m_mutex.unlock();
-}
-
-void InteropState::setHeight(int value)
-{
-	m_mutex.lock();
-	m_height = value;
-	m_mutex.unlock();
-}
-
-float InteropState::getTheta()
-{
-	m_mutex.lock();
-	float theta = m_theta;
-	m_mutex.unlock();
-
-	return theta;
-}
-
-float InteropState::getPhi()
-{
-	m_mutex.lock();
-	float phi = m_phi;
-	m_mutex.unlock();
-
-	return phi;
-}
-
-float InteropState::getRadius()
-{
-	m_mutex.lock();
-	float radius = m_radius;
-	m_mutex.unlock();
-
-	return m_radius;
-}
-
-int InteropState::getWidth()
-{
-	m_mutex.lock();
-	int width = m_width;
+	int width = m_viewportWidth;
 	m_mutex.unlock();
 
 	return width;
 }
 
-int InteropState::getHeight()
+int InteropState::viewportHeight()
 {
 	m_mutex.lock();
-	int height = m_height;
+	int height = m_viewportHeight;
 	m_mutex.unlock();
 
 	return height;

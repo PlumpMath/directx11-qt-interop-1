@@ -29,6 +29,7 @@
 // own
 #include "ExampleRenderer.h"
 #include "Math.h"
+#include "CamState.h"
 
 // win
 #include <D3D11.h>
@@ -46,8 +47,8 @@ struct Vertex
 	XMFLOAT4 Color;
 };
 
-ExampleRenderer::ExampleRenderer(WId hwnd, InteropState* InteropState, int width, int height, int frameLimiter)
-	: BasicRenderer(hwnd, InteropState, width, height, frameLimiter),
+ExampleRenderer::ExampleRenderer(WId hwnd, InteropState* interopState, int width, int height, int frameLimiter)
+	: BasicRenderer(hwnd, interopState, width, height, frameLimiter),
 	  m_vb(0),
 	  m_ib(0),
 	  m_fx(0),
@@ -140,9 +141,9 @@ void ExampleRenderer::render()
 
 void ExampleRenderer::updateScene()
 {
-	float theta = m_InteropState->getTheta();
-	float phi = m_InteropState->getPhi();
-	float radius = m_InteropState->getRadius();
+	float theta = static_cast<CamState*>(m_interopState)->theta();
+	float phi = static_cast<CamState*>(m_interopState)->phi();
+	float radius = static_cast<CamState*>(m_interopState)->radius();
 
 	// convert spherical to cartesian coordinates
 	float x = radius * sinf(phi) * cosf(theta);

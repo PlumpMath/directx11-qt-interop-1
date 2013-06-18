@@ -42,7 +42,7 @@
 
 #include <iostream>
 
-BasicRenderer::BasicRenderer(WId hwnd, InteropState* InteropState, int width, int height, int frameLimiter)
+BasicRenderer::BasicRenderer(WId hwnd, InteropState* interopState, int width, int height, int frameLimiter)
 	: QThread(),
 	  m_windowHandle(hwnd),
 	  m_driverType(D3D_DRIVER_TYPE_HARDWARE),
@@ -56,7 +56,7 @@ BasicRenderer::BasicRenderer(WId hwnd, InteropState* InteropState, int width, in
 	  m_depthStencilBuffer(0),
 	  m_renderTargetView(0),
 	  m_depthStencilView(0),
-	  m_InteropState(InteropState),
+	  m_interopState(interopState),
       m_frameLimiter(1.0f / frameLimiter)
 {
 	ZeroMemory(&m_viewport, sizeof(D3D11_VIEWPORT));
@@ -94,10 +94,10 @@ void BasicRenderer::run()
 
 void BasicRenderer::handleInput()
 {
-	if (m_width != m_InteropState->getWidth() || m_height != m_InteropState->getHeight())
+	if (m_width != m_interopState->viewportWidth() || m_height != m_interopState->viewportHeight())
 	{
-		m_width = m_InteropState->getWidth();
-		m_height = m_InteropState->getHeight();
+		m_width = m_interopState->viewportWidth();
+		m_height = m_interopState->viewportHeight();
 
 		onResize();
 	}

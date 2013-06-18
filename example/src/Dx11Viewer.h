@@ -33,6 +33,8 @@
 #include <qdx11/Dx11Widget.h>
 #include <qdx11/IRendererFactory.h>
 
+class CamState;
+
 class Dx11Viewer : public QMainWindow
 {
 	Q_OBJECT
@@ -45,6 +47,7 @@ protected:
 	Dx11Widget* m_dx11Widget;
     Ui::Dx11ViewerClass ui;
     IRendererFactory* m_rendererFactory;
+    CamState* m_camState;
 };
 
 #endif // DX11_VIEWER_H

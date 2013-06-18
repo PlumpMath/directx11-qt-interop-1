@@ -36,12 +36,12 @@
 #include <iostream>
 #include <sstream>
 
-Dx11Widget::Dx11Widget(IRendererFactory* factory, QWidget* parent /* = NULL */, Qt::WFlags flags /* = 0 */)
+Dx11Widget::Dx11Widget(IRendererFactory* factory, InteropState* interopState, QWidget* parent /* = NULL */, Qt::WFlags flags /* = 0 */)
 	: QWidget(parent, flags),
 	  m_leftMouseDown(false),
 	  m_rightMouseDown(false)
 {
-	m_interopState = new InteropState();
+	m_interopState = interopState;
     m_renderThread = factory->create(winId(), m_interopState);
 	m_renderThread->start();
 }
@@ -62,8 +62,8 @@ void Dx11Widget::paintEvent(QPaintEvent* event)
 
 void Dx11Widget::resizeEvent(QResizeEvent* event)
 {
-	m_interopState->setWidth(width());
-	m_interopState->setHeight(height());
+	m_interopState->setViewportWidth(width());
+	m_interopState->setViewportHeight(height());
 }
 
 void Dx11Widget::mousePressEvent(QMouseEvent* e)

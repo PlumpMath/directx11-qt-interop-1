@@ -26,29 +26,30 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef EXAMPLE_WIDGET_H
-#define EXAMPLE_WIDGET_H
+#ifndef CAM_STATE_H
+#define CAM_STATE_H
 
-#include <qdx11/Dx11Widget.h>
+// qt
+#include <QMutex>
 
-class ExampleWidget : public Dx11Widget
+#include <qdx11/InteropState.h>
+
+class CamState : public InteropState
 {
-    Q_OBJECT
-    Q_DISABLE_COPY(ExampleWidget)
+public: 
+    CamState();
+	void setTheta(float value);
+	void setPhi(float value);
+	void setRadius(float value);
 
-public:
-    ExampleWidget(IRendererFactory* factory, InteropState* interopState, QWidget* parent = NULL, Qt::WFlags flags = 0);
-    ~ExampleWidget();
-
-public slots:
-        void onFPSChanged(float, float);
-
-signals:
-        void updateStatusBar(QString);
+	float theta();
+	float phi();
+	float radius();
 
 protected:
-    virtual void mouseMoveEvent(QMouseEvent* e);
-    virtual void wheelEvent(QWheelEvent* e);
+	float m_theta;
+	float m_phi;
+	float m_radius;
 };
 
-#endif // EXAMPLE_WIDGET_H
+#endif // CAM_STATE_H

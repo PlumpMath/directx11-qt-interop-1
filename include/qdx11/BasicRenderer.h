@@ -50,7 +50,7 @@ class QDX11_API BasicRenderer : public QThread
 	Q_OBJECT
 
 public:
-	BasicRenderer(WId hwnd, InteropState* InteropState, int width, int height, int frameLimiter = 60);
+	BasicRenderer(WId hwnd, InteropState* interopState, int width, int height, int frameLimiter = 60);
 	virtual ~BasicRenderer();
 
 signals:
@@ -69,7 +69,7 @@ protected:
 	void calculateFPS();
 
 protected:
-	InteropState* m_InteropState;
+	InteropState* m_interopState;
 	WId m_windowHandle;
 	int m_width;
 	int m_height;

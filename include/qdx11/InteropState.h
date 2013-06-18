@@ -38,24 +38,14 @@ class QDX11_API InteropState
 {
 public:
 	InteropState(); 
-	void setTheta(float value);
-	void setPhi(float value);
-	void setRadius(float value);
-	void setWidth(int value);
-	void setHeight(int value);
-
-	float getTheta();
-	float getPhi();
-	float getRadius();
-	int getWidth();
-	int getHeight();
+	void setViewportWidth(int value);
+	void setViewportHeight(int value);
+	int viewportWidth();
+	int viewportHeight();
 
 protected:
-	float m_theta;
-	float m_phi;
-	float m_radius;
-	int m_width;
-	int m_height;
+	int m_viewportWidth;
+	int m_viewportHeight;
 
 	QMutex m_mutex;
 };

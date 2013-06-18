@@ -52,6 +52,8 @@ set(sources
 	src/ExampleRendererFactory.cpp
 	src/ExampleWidget.h
 	src/ExampleWidget.cpp
+	src/CamState.h
+	src/CamState.cpp
 )
 
 set(fx

@@ -47,7 +47,7 @@ class QDX11_API Dx11Widget : public QWidget
 	Q_DISABLE_COPY(Dx11Widget)
 
 public:
-	Dx11Widget(IRendererFactory* factory, QWidget* parent = NULL, Qt::WFlags flags = 0);
+	Dx11Widget(IRendererFactory* factory, InteropState* interopState, QWidget* parent = NULL, Qt::WFlags flags = 0);
 	virtual ~Dx11Widget();
 
 	inline virtual QPaintEngine* paintEngine() const {return NULL;}
