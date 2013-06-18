@@ -49,7 +49,11 @@ include(${QT_USE_FILE})
 
 include_directories(${target} ${DX11_INCLUDE_DIRS})
 
-option(DX11_WINDOW_APP "Set to OFF to use the console subsystem." ON)
+option(QDX11_BUILD_EXAMPLES "Set to OFF to build the library only." ON)
+option(QDX11_SHOW_DEBUG_CONSOLE "Set to OFF to build a Win32 Project." ON)
 
 add_subdirectory(qdx11)
-add_subdirectory(example)
+
+if(QDX11_BUILD_EXAMPLES)
+	add_subdirectory(example)
+endif()

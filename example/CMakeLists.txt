@@ -33,11 +33,11 @@ add_definitions(-DUNICODE)
 add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 
 # needs to be there if one wants supress the console window for GUI Applications on Windows
-if(WIN32 AND DX11_WINDOW_APP)
+if(WIN32 AND NOT QDX11_SHOW_DEBUG_CONSOLE)
 	set(GUI_TYPE WIN32)
 else()
 	set(GUI_TYPE)
-endif(WIN32 AND DX11_WINDOW_APP)
+endif(WIN32 AND NOT QDX11_SHOW_DEBUG_CONSOLE)
 
 set(sources
 	src/main.cpp
