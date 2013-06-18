@@ -31,6 +31,11 @@
 
 #include "Export.h"
 
+/**
+* @brief Accurate Start/Stop Timer.
+* 
+* The PeformanceTimer is used for calculating frame stats.
+*/
 class QDX11_API PerformanceTimer
 {
 public:

@@ -32,6 +32,9 @@
 #include <qdx11/BasicRenderer.h>
 class CamState;
 
+/**
+* @brief The example DirectX11 Implementation with vbo, ibo and shader.
+*/
 class ExampleRenderer : public BasicRenderer
 {
 public:
@@ -47,7 +50,6 @@ protected:
 	void createGeomBuffers();
 	void createVertexLayouts();
 	void loadFX();
-    CamState* asCamState(InteropState* interopState);
 
 private:
 	ID3D11Buffer* m_vb;

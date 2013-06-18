@@ -31,6 +31,9 @@
 
 #include <qdx11/IRendererFactory.h>
 
+/**
+* @brief Implements the RendererFactory interface.
+*/
 class ExampleRendererFactory : public IRendererFactory
 {
 public:

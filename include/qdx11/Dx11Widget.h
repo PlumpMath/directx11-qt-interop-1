@@ -41,6 +41,13 @@
 
 #include "Export.h"
 
+/**
+* @brief DirectX11 Context Widget.
+*
+* Subclass this widget if you want to handle Events,
+* implement a Camera Handler ...
+*  
+*/
 class QDX11_API Dx11Widget : public QWidget
 {
 	Q_OBJECT

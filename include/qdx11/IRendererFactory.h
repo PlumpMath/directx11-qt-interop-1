@@ -35,6 +35,11 @@
 
 #include "Export.h"
 
+/**
+* @brief Abstract Factory class produces render objects shown in Dx11Widget.
+*
+* One needs to implement this Interface to create a Renderer.
+*/
 class QDX11_API IRendererFactory
 {
 public:

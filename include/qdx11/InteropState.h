@@ -34,6 +34,12 @@
 
 #include "Export.h"
 
+/**
+* @brief Shared Ressource between the GUI-Thread and the Rendering Thread.
+*
+* Subclass this widget if you want to pass additional values from the GUI
+* to the Renderer.
+*/
 class QDX11_API InteropState
 {
 public:

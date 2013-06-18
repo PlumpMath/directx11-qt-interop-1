@@ -31,6 +31,9 @@
 
 #include <qdx11/Dx11Widget.h>
 
+/**
+* @brief Derived Widget from Dx11 Widget which uses signal/slot and augments the basic event handling.
+*/
 class ExampleWidget : public Dx11Widget
 {
     Q_OBJECT

@@ -45,6 +45,14 @@
 
 #include "Export.h"
 
+/**
+* @brief Basic Renderer.
+*
+* Provides context creation, frame stats, swapChain, resizement functionality
+* and the rendering loop.
+*
+* Subclass this widget for your DirectX Code.
+*/
 class QDX11_API BasicRenderer : public QThread
 {
 	Q_OBJECT

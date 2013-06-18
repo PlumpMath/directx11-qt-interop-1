@@ -35,6 +35,9 @@
 
 class CamState;
 
+/**
+* @brief Example viewer showing Dx11Widget integration into other widgets.
+*/
 class Dx11Viewer : public QMainWindow
 {
 	Q_OBJECT

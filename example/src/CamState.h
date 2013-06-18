@@ -34,6 +34,9 @@
 
 #include <qdx11/InteropState.h>
 
+/**
+* @brief Shared Ressource to pass camera manipulation to the renderer.
+*/
 class CamState : public InteropState
 {
 public: 
