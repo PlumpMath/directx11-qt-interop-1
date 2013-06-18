@@ -46,8 +46,8 @@ set(sources
 	src/ui/d3dviewer.ui
 	src/Math.h
 	src/Math.cpp
-	src/SimpleDx11Example.h
-	src/SimpleDx11Example.cpp
+	src/ExampleRenderer.h
+	src/ExampleRenderer.cpp
 	src/ExampleRendererFactory.h
 	src/ExampleRendererFactory.cpp
 	src/ExampleWidget.h

@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 #include "ExampleRendererFactory.h"
-#include "SimpleDx11Example.h"
+#include "ExampleRenderer.h"
 
 ExampleRendererFactory::ExampleRendererFactory(int width, int height, int frameLimiter)
     : IRendererFactory(width, height, frameLimiter)
@@ -42,5 +42,5 @@ ExampleRendererFactory::~ExampleRendererFactory()
 
 BasicRenderer* ExampleRendererFactory::create(WId windowHandle, InteropState* state)
 {
-    return new SimpleDx11Example(windowHandle, state, m_width, m_height, m_frameLimiter);
+    return new ExampleRenderer(windowHandle, state, m_width, m_height, m_frameLimiter);
 }
