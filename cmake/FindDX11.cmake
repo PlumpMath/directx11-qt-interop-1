@@ -88,7 +88,7 @@ MACRO(DX11_FIND_DEBUG_AND_RELEASE varname headername)
 	FIND_LIBRARY(DX11_${varname}_LIBRARY_DEBUG
         NAMES ${varname}d
         PATHS
-        ${DX11_DIR}/lib/x64
+        ${DX11_DIR}/lib/${BINARY_DIR}
         $ENV{DXSDK_DIR}/lib
         DOC "Location of DirectX11 Libraries"
     )

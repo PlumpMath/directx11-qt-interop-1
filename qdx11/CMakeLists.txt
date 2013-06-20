@@ -62,4 +62,13 @@ target_link_libraries(${target}
 configureDebugPostfix("d")
 configureSourceGroups()
 
-install(TARGETS ${target} DESTINATION lib)
+install(
+	DIRECTORY ${CMAKE_SOURCE_DIR}/include/qdx11
+    DESTINATION include
+)
+
+install(
+	TARGETS ${target}
+	RUNTIME DESTINATION bin COMPONENT Runtime
+	LIBRARY ARCHIVE DESTINATION lib COMPONENT Runtime
+)
