@@ -109,11 +109,11 @@ if(WIN32)
 		set(QDX11_FOUND "YES")
 	   
 		set(QDX11_INCLUDE_DIRS
-			${QDX11_WIDGET_INCLUDE_DIR}
+			${QDX11_INCLUDE_DIR}
 		)
 		
 		set(QDX11_LIBRARIES
-			${QDX11_WIDGET_LIBRARY}
+			${QDX11_LIBRARY}
 		)
 	endif()
 endif()
