@@ -26,8 +26,8 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef UTILITY_H
-#define UTILITY_H
+#ifndef DX11_UTILITY_H
+#define DX11_UTILITY_H
 
 #include <Windows.h>
 #include <xnamath.h>
@@ -38,4 +38,4 @@
 
 #define releaseCOM(x) { if (x){x->Release(); x = 0;} }
 
-#endif // UTILITY_H
+#endif // DX11_UTILITY_H
