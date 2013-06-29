@@ -26,8 +26,8 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef SIMPLE_DX11_EXAMPLE_H
-#define SIMPLE_DX11_EXAMPLE_H
+#ifndef EXAMPLE_RENDERER_H
+#define EXAMPLE_RENDERER_H
 
 #include <qdx11/BasicRenderer.h>
 class CamState;
@@ -62,4 +62,4 @@ private:
 	XMFLOAT4X4 m_viewMatrix;
 	XMFLOAT4X4 m_projectionMatrix;
 };
-#endif // SIMPLE_DX11_EXAMPLE_H
+#endif // EXAMPLE_RENDERER_H

@@ -38,7 +38,7 @@ set(header
 	${HEADER_PATH}/IRendererFactory.h
 	${HEADER_PATH}/InteropState.h
 	${HEADER_PATH}/PerformanceTimer.h
-	${HEADER_PATH}/Utility.h
+	${HEADER_PATH}/Dx11Utility.h
 	${HEADER_PATH}/Export.h
 )
 	
@@ -47,7 +47,7 @@ set(sources
 	src/Dx11Widget.cpp
 	src/InteropState.cpp
 	src/PerformanceTimer.cpp
-	src/Utility.cpp
+	src/Dx11Utility.cpp
 	${header}
 )
 	
