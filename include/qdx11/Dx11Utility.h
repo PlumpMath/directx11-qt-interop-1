@@ -32,6 +32,10 @@
 #include <Windows.h>
 #include <xnamath.h>
 
+#include <D3DX11.h>
+#include <d3dx11effect.h>
+#include <DxErr.h>
+
 #define releaseCOM(x) { if (x){x->Release(); x = 0;} }
 
 #endif // UTILITY_H

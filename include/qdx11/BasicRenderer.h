@@ -40,7 +40,7 @@
 #include <DxErr.h>
 
 #include "InteropState.h"
-#include "Utility.h"
+#include "Dx11Utility.h"
 #include "PerformanceTimer.h"
 
 #include "Export.h"
