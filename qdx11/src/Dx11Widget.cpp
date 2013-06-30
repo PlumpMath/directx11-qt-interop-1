@@ -44,6 +44,8 @@ Dx11Widget::Dx11Widget(IRendererFactory* factory, InteropState* interopState, QW
 	m_interopState = interopState;
     m_renderThread = factory->create(winId(), m_interopState);
 	m_renderThread->start();
+
+    setFocus();
 }
 
 Dx11Widget::~Dx11Widget()
@@ -68,6 +70,8 @@ void Dx11Widget::resizeEvent(QResizeEvent* event)
 
 void Dx11Widget::mousePressEvent(QMouseEvent* e)
 {
+    setFocus();
+
 	if (e->button() == Qt::LeftButton)
 	{
 		m_leftMouseDown = true;
@@ -98,7 +102,6 @@ void Dx11Widget::mouseMoveEvent(QMouseEvent* e)
 
 void Dx11Widget::wheelEvent(QWheelEvent* e)
 {
-
 }
 
 void Dx11Widget::keyPressEvent(QKeyEvent* e)

@@ -97,6 +97,14 @@ void ExampleWidget::wheelEvent(QWheelEvent* e)
     static_cast<CamState*>(m_interopState)->setRadius(radius);
 }
 
+void ExampleWidget::keyPressEvent(QKeyEvent* e)
+{
+    if(e->key() == Qt::Key_Escape)
+    {
+        exit(0);
+    }
+}
+
 void ExampleWidget::onFPSChanged(float fps, float mspf)
 {
     std::stringstream sstream;
