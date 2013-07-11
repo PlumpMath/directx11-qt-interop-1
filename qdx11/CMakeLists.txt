@@ -32,6 +32,10 @@ add_definitions(-D__STDC_CONSTANT_MACROS)
 add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 set(HEADER_PATH ${CMAKE_SOURCE_DIR}/include/qdx11)
 
+if(QDX11_SHOW_DXTRACE)
+	add_definitions(-DSHOW_DXTRACE)
+endif()
+
 set(header
 	${HEADER_PATH}/BasicRenderer.h
 	${HEADER_PATH}/Dx11Widget.h

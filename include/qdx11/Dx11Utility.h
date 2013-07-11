@@ -38,4 +38,21 @@
 
 #define releaseCOM(x) { if (x){x->Release(); x = 0;} }
 
+#if defined(SHOW_DXTRACE)
+    #ifndef HANDLE_ERROR
+    #define HANDLE_ERROR(x)                                            \
+    {                                                                   \
+        HRESULT hr = (x)                                                \
+        if(FAILED(hr))                                                  \
+        {                                                               \
+            DXTrace(__FILE__, (DWORD)__LINE__, hr, L#x, true)           \
+        }                                                               \
+    }
+    #endif
+#else
+    #ifndef HANDLE_ERROR
+    #define HANDLE_ERROR(x) (x)
+    #endif
+#endif
+
 #endif // DX11_UTILITY_H

@@ -51,6 +51,7 @@ include_directories(${target} ${DX11_INCLUDE_DIRS})
 
 option(QDX11_BUILD_EXAMPLES "Set to OFF to build the library only." ON)
 option(QDX11_SHOW_DEBUG_CONSOLE "Set to OFF to build a Win32 Project." ON)
+option(QDX11_SHOW_DXTRACE "Set to on to show error codes." OFF)
 
 add_subdirectory(qdx11)
 
