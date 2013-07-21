@@ -28,6 +28,7 @@
 
 // own
 #include "ExampleWidget.h"
+#include "ExampleRenderer.h"
 #include "Math.h"
 
     // qt
@@ -37,21 +38,16 @@
 #include <iostream>
 #include <sstream>
 
-#include "CamState.h"
-
-ExampleWidget::ExampleWidget(IRendererFactory* factory, InteropState* interopState, QWidget* parent /* = NULL */, Qt::WFlags flags /* = 0 */)
-    : Dx11Widget(factory, interopState, parent, flags)
+ExampleWidget::ExampleWidget(IRendererFactory* factory, QWidget* parent /* = NULL */, Qt::WFlags flags /* = 0 */)
+    : Dx11Widget(factory, parent, flags)
 {
-    connect(m_renderThread, SIGNAL(fpsChanged(float, float)), this, SLOT(onFPSChanged(float, float)));
+    connect(m_renderer, SIGNAL(fpsChanged(float, float)), this, SLOT(onFPSChanged(float, float)));
 }
 
 ExampleWidget::~ExampleWidget()
 {
-    if(m_renderThread)
-        delete m_renderThread;
-
-    if(m_interopState)
-        delete m_interopState;
+    if(m_renderer)
+        delete m_renderer;
 }
 
 void ExampleWidget::mouseMoveEvent(QMouseEvent* e)
@@ -62,12 +58,12 @@ void ExampleWidget::mouseMoveEvent(QMouseEvent* e)
         float dx = XMConvertToRadians(0.25f * static_cast<float>(e->pos().x() - m_prevMousePos.x()));
         float dy = XMConvertToRadians(0.25f * static_cast<float>(e->pos().y() - m_prevMousePos.y()));
 
-        float theta = static_cast<CamState*>(m_interopState)->theta() + dx;
-        float phi = static_cast<CamState*>(m_interopState)->phi() + dy;
-
+        float theta = static_cast<ExampleRenderer*>(m_renderer)->theta() + dx;
+        float phi = static_cast<ExampleRenderer*>(m_renderer)->phi() + dy;
         phi = Math::clamp(phi, 0.1f, Math::Pi - 0.1f);
-        static_cast<CamState*>(m_interopState)->setTheta(theta);
-        static_cast<CamState*>(m_interopState)->setPhi(phi);
+
+        static_cast<ExampleRenderer*>(m_renderer)->setTheta(theta);
+        static_cast<ExampleRenderer*>(m_renderer)->setPhi(phi);
     }
 
     if (m_rightMouseDown)
@@ -76,13 +72,14 @@ void ExampleWidget::mouseMoveEvent(QMouseEvent* e)
         float dx = 0.05f * static_cast<float>(e->pos().x() - m_prevMousePos.x());
         float dy = 0.05f * static_cast<float>(e->pos().y() - m_prevMousePos.y());
 
-        float radius = static_cast<CamState*>(m_interopState)->radius() + dx - dy;
-
+        float radius = static_cast<ExampleRenderer*>(m_renderer)->radius() + dx - dy;
         radius = Math::clamp(radius, 5.0f, 20.0f);
-        static_cast<CamState*>(m_interopState)->setRadius(radius);
+
+        static_cast<ExampleRenderer*>(m_renderer)->setRadius(radius);
     }
 
     m_prevMousePos = e->pos();
+    update();
 }
 
 void ExampleWidget::wheelEvent(QWheelEvent* e)
@@ -91,10 +88,11 @@ void ExampleWidget::wheelEvent(QWheelEvent* e)
     // see http://harmattan-dev.nokia.com/docs/platform-api-reference/xml/daily-docs/libqt4/qwheelevent.html
     //
     float d = 0.5f * static_cast<float>(e->delta() / 120);
-    float radius = static_cast<CamState*>(m_interopState)->radius() + d;
+    float radius = static_cast<ExampleRenderer*>(m_renderer)->radius() + d;
 
     radius = Math::clamp(radius, 5.0f, 20.0f);
-    static_cast<CamState*>(m_interopState)->setRadius(radius);
+    static_cast<ExampleRenderer*>(m_renderer)->setRadius(radius);
+    update();
 }
 
 void ExampleWidget::keyPressEvent(QKeyEvent* e)

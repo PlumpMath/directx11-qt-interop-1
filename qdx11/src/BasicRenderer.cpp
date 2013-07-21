@@ -42,13 +42,12 @@
 
 #include <iostream>
 
-BasicRenderer::BasicRenderer(WId hwnd, InteropState* interopState, int width, int height, int frameLimiter)
-	: QThread(),
-	  m_windowHandle(hwnd),
+BasicRenderer::BasicRenderer(WId hwnd, int width, int height, int frameLimiter)
+    : m_windowHandle(hwnd),
 	  m_driverType(D3D_DRIVER_TYPE_HARDWARE),
 	  m_width(0),
 	  m_height(0),
-	  m_enable4xMSAA(true),
+	  m_enable4xMSAA(false), // true
 	  m_4xMSAAQuality(0),
 	  m_device(0),
 	  m_context(0),
@@ -56,7 +55,6 @@ BasicRenderer::BasicRenderer(WId hwnd, InteropState* interopState, int width, in
 	  m_depthStencilBuffer(0),
 	  m_renderTargetView(0),
 	  m_depthStencilView(0),
-	  m_interopState(interopState),
       m_frameLimiter(1.0f / frameLimiter)
 {
 	ZeroMemory(&m_viewport, sizeof(D3D11_VIEWPORT));
@@ -71,33 +69,29 @@ bool BasicRenderer::init()
 	return true;
 }
 
-void BasicRenderer::run()
+void BasicRenderer::frame()
 {
-	// rendering loop
-    static float elapsedTime = 0.0f;
+    static bool timerStarted = false;
 
-	m_timer.start();
-	while (true)
-	{
-        handleInput();
-        m_timer.perFrame();
-        
-        if((m_timer.totalTime() - elapsedTime) >= m_frameLimiter)
-        {
-            calculateFPS();
-            updateScene();
-            render();
-            elapsedTime += m_frameLimiter;
-        }
-	}
+    if(!timerStarted)
+    {
+        m_timer.start();
+        timerStarted = true;
+    }
+
+    handleInput();
+    m_timer.perFrame();
+    calculateFPS();
+    updateScene();
+    render();
 }
 
 void BasicRenderer::handleInput()
 {
-	if (m_width != m_interopState->viewportWidth() || m_height != m_interopState->viewportHeight())
+	if(m_width != m_viewportWidth || m_height != m_viewportHeight)
 	{
-		m_width = m_interopState->viewportWidth();
-		m_height = m_interopState->viewportHeight();
+		m_width = m_viewportWidth;
+		m_height = m_viewportHeight;
 
 		onResize();
 	}
@@ -269,7 +263,7 @@ void BasicRenderer::calculateFPS()
 	++frameCount;
 
 	// compute averages over one second period
-	if((m_timer.totalTime() - elapsedTime) >= 1.0f)
+    if((m_timer.totalTime() - elapsedTime) >= 1.0f)
 	{
 		float fps = static_cast<float>(frameCount);
 		float millisecsPerFrame = 1000.0f / fps;
@@ -278,4 +272,24 @@ void BasicRenderer::calculateFPS()
 		frameCount = 0;
 		elapsedTime += 1.0f;
 	}
+}
+
+void BasicRenderer::setViewportWidth(int width)
+{
+    m_viewportWidth = width;
+}
+
+int BasicRenderer::viewportWidth()
+{
+    return m_viewportWidth;
+}
+
+void BasicRenderer::setViewportHeight(int height)
+{
+    m_viewportHeight = height;
+}
+
+int BasicRenderer::viewportHeight()
+{
+    return m_viewportHeight;
 }

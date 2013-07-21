@@ -30,7 +30,6 @@
 #define INTERFACE_RENDERER_FACTORY_H
 
 #include "BasicRenderer.h"
-#include "InteropState.h"
 #include <QWidget>
 
 #include "Export.h"
@@ -45,7 +44,7 @@ class QDX11_API IRendererFactory
 public:
     IRendererFactory(int width, int height, int frameLimiter) : m_width(width), m_height(height), m_frameLimiter(frameLimiter) {}
     virtual ~IRendererFactory() {};
-    virtual BasicRenderer* create(WId windowHandle, InteropState* state) = 0;
+    virtual BasicRenderer* create(WId windowHandle) = 0;
 
     inline int width() {return m_width;}
     inline int height() {return m_height;}

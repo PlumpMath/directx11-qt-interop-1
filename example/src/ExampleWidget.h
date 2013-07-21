@@ -40,7 +40,7 @@ class ExampleWidget : public Dx11Widget
     Q_DISABLE_COPY(ExampleWidget)
 
 public:
-    ExampleWidget(IRendererFactory* factory, InteropState* interopState, QWidget* parent = NULL, Qt::WFlags flags = 0);
+    ExampleWidget(IRendererFactory* factory, QWidget* parent = NULL, Qt::WFlags flags = 0);
     ~ExampleWidget();
 
 public slots:

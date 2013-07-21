@@ -30,7 +30,6 @@
 #define EXAMPLE_RENDERER_H
 
 #include <qdx11/BasicRenderer.h>
-class CamState;
 
 /**
 * @brief The example DirectX11 Implementation with vbo, ibo and shader.
@@ -38,28 +37,59 @@ class CamState;
 class ExampleRenderer : public BasicRenderer
 {
 public:
-	ExampleRenderer(WId hwnd, InteropState* interopState, int width, int height, int frameLimiter = 60);
-	virtual ~ExampleRenderer();
+    ExampleRenderer(WId hwnd, int width, int height, int frameLimiter = 60);
+    virtual ~ExampleRenderer();
+
+    void setTheta(float value);
+    void setPhi(float value);
+    void setRadius(float value);
+
+    float theta();
+    float phi();
+    float radius();
+
+    virtual void frame();
 
 protected:
-	virtual bool init();
-	virtual void handleInput();
-	virtual void updateScene();
-	virtual void render();
-
-	void createGeomBuffers();
-	void createVertexLayouts();
-	void loadFX();
+    virtual bool init();
+    virtual void handleInput();
+    virtual void updateScene();
+    virtual void render();
+    virtual void onResize();
 
 private:
-	ID3D11Buffer* m_vb;
-	ID3D11Buffer* m_ib;
-	ID3DX11Effect* m_fx;
-	ID3DX11EffectTechnique* m_technique;
-	ID3DX11EffectMatrixVariable* m_fxWorldViewProjection;
-	ID3D11InputLayout* m_inputLayout;
-	XMFLOAT4X4 m_worldMatrix;
-	XMFLOAT4X4 m_viewMatrix;
-	XMFLOAT4X4 m_projectionMatrix;
+    void createGeomBuffers();
+    void createVertexLayouts();
+    void createOffscreenRenderTargetView();
+    void createTestQuadGeometryBuffers();
+    void loadFX();
+
+    void screenshot();
+    void renderTestQuad();
+    void renderCube();
+
+private:
+    ID3D11Buffer* m_vb;
+    ID3D11Buffer* m_ib;
+    ID3DX11Effect* m_fx;
+    ID3DX11EffectTechnique* m_technique;
+    ID3DX11EffectTechnique* m_techniqueTextured;
+    ID3DX11EffectMatrixVariable* m_fxWorldViewProjection;
+    ID3DX11EffectShaderResourceVariable* m_texture;
+    ID3D11InputLayout* m_inputLayout;
+    XMFLOAT4X4 m_worldMatrix;
+    XMFLOAT4X4 m_viewMatrix;
+    XMFLOAT4X4 m_projectionMatrix;
+
+    // render to texture
+    ID3D11Buffer* m_testQuadVB;
+    ID3D11Buffer* m_testQuadIB;
+
+    ID3D11ShaderResourceView* m_offscreenSRV;
+    ID3D11RenderTargetView* m_offscreenRTV;
+
+    float m_theta;
+    float m_phi;
+    float m_radius;
 };
 #endif // EXAMPLE_RENDERER_H

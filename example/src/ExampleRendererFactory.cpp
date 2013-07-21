@@ -40,7 +40,7 @@ ExampleRendererFactory::~ExampleRendererFactory()
 
 }
 
-BasicRenderer* ExampleRendererFactory::create(WId windowHandle, InteropState* state)
+BasicRenderer* ExampleRendererFactory::create(WId windowHandle)
 {
-    return new ExampleRenderer(windowHandle, state, m_width, m_height, m_frameLimiter);
+    return new ExampleRenderer(windowHandle, m_width, m_height, m_frameLimiter);
 }

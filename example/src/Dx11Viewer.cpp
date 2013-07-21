@@ -29,7 +29,6 @@
 #include "Dx11Viewer.h"
 #include "ExampleRendererFactory.h"
 #include "ExampleWidget.h"
-#include "CamState.h"
 
 #include <QPixmap>
 #include <QIcon>
@@ -47,8 +46,7 @@ Dx11Viewer::Dx11Viewer(QWidget* parent, Qt::WFlags flags)
     ui.setupUi(this);
     
     m_rendererFactory = new ExampleRendererFactory(width(), height(), 250);
-    m_camState = new CamState();
-	m_dx11Widget = new ExampleWidget(m_rendererFactory, m_camState, this);
+	m_dx11Widget = new ExampleWidget(m_rendererFactory, this);
 	setCentralWidget(m_dx11Widget);
 
     connect(dynamic_cast<ExampleWidget*>(m_dx11Widget), SIGNAL(updateStatusBar(QString)), ui.statusBar, SLOT(showMessage(QString)));
@@ -57,5 +55,4 @@ Dx11Viewer::Dx11Viewer(QWidget* parent, Qt::WFlags flags)
 Dx11Viewer::~Dx11Viewer()
 {
     delete m_rendererFactory;
-    delete m_camState;
 }

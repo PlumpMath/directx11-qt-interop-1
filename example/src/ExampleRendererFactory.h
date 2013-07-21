@@ -40,7 +40,7 @@ public:
     ExampleRendererFactory(int width, int height, int frameLimiter);
     ~ExampleRendererFactory();
 
-    virtual BasicRenderer* create(WId windowHandle, InteropState* state);
+    virtual BasicRenderer* create(WId windowHandle);
 };
 
 #endif // EXAMPLE_RENDERER_FACTORY_H

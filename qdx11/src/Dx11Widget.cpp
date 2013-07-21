@@ -36,36 +36,39 @@
 #include <iostream>
 #include <sstream>
 
-Dx11Widget::Dx11Widget(IRendererFactory* factory, InteropState* interopState, QWidget* parent /* = NULL */, Qt::WFlags flags /* = 0 */)
+Dx11Widget::Dx11Widget(IRendererFactory* factory, QWidget* parent /* = NULL */, Qt::WFlags flags /* = 0 */)
 	: QWidget(parent, flags),
 	  m_leftMouseDown(false),
 	  m_rightMouseDown(false)
 {
-	m_interopState = interopState;
-    m_renderThread = factory->create(winId(), m_interopState);
-	m_renderThread->start();
+    m_renderer = factory->create(winId());
+
+    setAttribute(Qt::WA_PaintOnScreen, true);
+    setAttribute(Qt::WA_NativeWindow, true);
+
+    QTimer* timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+    timer->start(0);
 
     setFocus();
 }
 
 Dx11Widget::~Dx11Widget()
 {
-	if(m_renderThread)
-		delete m_renderThread;
-
-    if(m_interopState)
-        delete m_interopState;
+	if(m_renderer)
+		delete m_renderer;
 }
 
 void Dx11Widget::paintEvent(QPaintEvent* event)
 {
-	// no implementation
+	m_renderer->frame();
 }
 
 void Dx11Widget::resizeEvent(QResizeEvent* event)
 {
-	m_interopState->setViewportWidth(width());
-	m_interopState->setViewportHeight(height());
+	m_renderer->setViewportWidth(width());
+	m_renderer->setViewportHeight(height());
+    update();
 }
 
 void Dx11Widget::mousePressEvent(QMouseEvent* e)
@@ -102,6 +105,7 @@ void Dx11Widget::mouseMoveEvent(QMouseEvent* e)
 
 void Dx11Widget::wheelEvent(QWheelEvent* e)
 {
+
 }
 
 void Dx11Widget::keyPressEvent(QKeyEvent* e)

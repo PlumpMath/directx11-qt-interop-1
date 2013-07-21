@@ -29,7 +29,6 @@
 #ifndef BASIC_RENDERER_H
 #define BASIC_RENDERER_H
 
-#include <QThread>
 #include <QWidget>
 
 // windows
@@ -39,33 +38,30 @@
 #include <xnamath.h>
 #include <DxErr.h>
 
-#include "InteropState.h"
 #include "Dx11Utility.h"
 #include "PerformanceTimer.h"
 
 #include "Export.h"
 
-/**
-* @brief Basic Renderer.
-*
-* Provides context creation, frame stats, swapChain, resizement functionality
-* and the rendering loop.
-*
-* Subclass this widget for your DirectX Code.
-*/
-class QDX11_API BasicRenderer : public QThread
+class QDX11_API BasicRenderer : public QObject
 {
 	Q_OBJECT
 
 public:
-	BasicRenderer(WId hwnd, InteropState* interopState, int width, int height, int frameLimiter = 60);
+	BasicRenderer(WId hwnd, int width, int height, int frameLimiter = 60);
 	virtual ~BasicRenderer();
+
+    void setViewportWidth(int width);
+    int viewportWidth();
+    void setViewportHeight(int height);
+    int viewportHeight();
+
+    virtual void frame();
 
 signals:
 	void fpsChanged(float, float);
 
 protected:
-	virtual void run();
 	virtual bool init();
 	virtual void handleInput();
 	virtual void onResize();
@@ -77,7 +73,6 @@ protected:
 	void calculateFPS();
 
 protected:
-	InteropState* m_interopState;
 	WId m_windowHandle;
 	int m_width;
 	int m_height;
@@ -94,6 +89,9 @@ protected:
 	ID3D11DepthStencilView* m_depthStencilView;
 	D3D11_VIEWPORT m_viewport;
 	D3D_DRIVER_TYPE m_driverType;
+
+    int m_viewportWidth;
+    int m_viewportHeight;
 };
 
 #endif // BASIC_RENDERER_H

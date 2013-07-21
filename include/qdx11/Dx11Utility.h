@@ -40,13 +40,13 @@
 
 #if defined(SHOW_DXTRACE)
     #ifndef HANDLE_ERROR
-    #define HANDLE_ERROR(x)                                            \
-    {                                                                   \
-        HRESULT hr = (x)                                                \
-        if(FAILED(hr))                                                  \
-        {                                                               \
-            DXTrace(__FILE__, (DWORD)__LINE__, hr, L#x, true)           \
-        }                                                               \
+    #define HANDLE_ERROR(x)                                     \
+    {                                                           \
+        HRESULT hr = (x);                                       \
+        if(FAILED(hr))                                          \
+        {                                                       \
+            DXTrace(__FILE__, (DWORD)__LINE__, hr, L#x, true);  \
+        }                                                       \
     }
     #endif
 #else

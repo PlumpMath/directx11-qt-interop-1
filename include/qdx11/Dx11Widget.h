@@ -30,12 +30,10 @@
 #define DX11_WIDGET_H
 
 // qt
-#include <QThread>
 #include <QWidget>
 #include <QTimer>
 
 // own
-#include "InteropState.h"
 #include "BasicRenderer.h"
 #include "IRendererFactory.h"
 
@@ -54,7 +52,7 @@ class QDX11_API Dx11Widget : public QWidget
 	Q_DISABLE_COPY(Dx11Widget)
 
 public:
-	Dx11Widget(IRendererFactory* factory, InteropState* interopState, QWidget* parent = NULL, Qt::WFlags flags = 0);
+	Dx11Widget(IRendererFactory* factory, QWidget* parent = NULL, Qt::WFlags flags = 0);
 	virtual ~Dx11Widget();
 
 	inline virtual QPaintEngine* paintEngine() const {return NULL;}
@@ -70,8 +68,7 @@ protected:
 
 
 protected:
-	BasicRenderer* m_renderThread;
-	InteropState* m_interopState;
+	BasicRenderer* m_renderer;
 
 	QPoint m_prevMousePos;
 	bool m_leftMouseDown;

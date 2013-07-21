@@ -40,7 +40,6 @@ set(header
 	${HEADER_PATH}/BasicRenderer.h
 	${HEADER_PATH}/Dx11Widget.h
 	${HEADER_PATH}/IRendererFactory.h
-	${HEADER_PATH}/InteropState.h
 	${HEADER_PATH}/PerformanceTimer.h
 	${HEADER_PATH}/Dx11Utility.h
 	${HEADER_PATH}/Export.h
@@ -49,7 +48,6 @@ set(header
 set(sources
 	src/BasicRenderer.cpp
 	src/Dx11Widget.cpp
-	src/InteropState.cpp
 	src/PerformanceTimer.cpp
 	src/Dx11Utility.cpp
 	${header}
