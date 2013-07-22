@@ -34,13 +34,13 @@
 /**
 * @brief Derived Widget from Dx11 Widget which uses signal/slot and augments the basic event handling.
 */
-class ExampleWidget : public Dx11Widget
+class ExampleWidget : public qdx11::Dx11Widget
 {
     Q_OBJECT
     Q_DISABLE_COPY(ExampleWidget)
 
 public:
-    ExampleWidget(IRendererFactory* factory, QWidget* parent = NULL, Qt::WFlags flags = 0);
+    ExampleWidget(qdx11::IRendererFactory* factory, QWidget* parent = NULL, Qt::WFlags flags = 0);
     ~ExampleWidget();
 
 public slots:

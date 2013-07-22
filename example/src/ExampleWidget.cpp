@@ -38,6 +38,8 @@
 #include <iostream>
 #include <sstream>
 
+using namespace qdx11;
+
 ExampleWidget::ExampleWidget(IRendererFactory* factory, QWidget* parent /* = NULL */, Qt::WFlags flags /* = 0 */)
     : Dx11Widget(factory, parent, flags)
 {

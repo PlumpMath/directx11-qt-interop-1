@@ -39,40 +39,43 @@
 
 #include "Export.h"
 
-/**
-* @brief DirectX11 Context Widget.
-*
-* Subclass this widget if you want to handle Events,
-* implement a Camera Handler ...
-*  
-*/
-class QDX11_API Dx11Widget : public QWidget
+namespace qdx11
 {
-	Q_OBJECT
-	Q_DISABLE_COPY(Dx11Widget)
+    /**
+    * @brief DirectX11 Context Widget.
+    *
+    * Subclass this widget if you want to handle Events,
+    * implement a Camera Handler ...
+    *  
+    */
+    class QDX11_API Dx11Widget : public QWidget
+    {
+	    Q_OBJECT
+	    Q_DISABLE_COPY(Dx11Widget)
 
-public:
-	Dx11Widget(IRendererFactory* factory, QWidget* parent = NULL, Qt::WFlags flags = 0);
-	virtual ~Dx11Widget();
+    public:
+	    Dx11Widget(IRendererFactory* factory, QWidget* parent = NULL, Qt::WFlags flags = 0);
+	    virtual ~Dx11Widget();
 
-	inline virtual QPaintEngine* paintEngine() const {return NULL;}
+	    inline virtual QPaintEngine* paintEngine() const {return NULL;}
 
-protected:
-	virtual void paintEvent(QPaintEvent* e);
-	virtual void resizeEvent(QResizeEvent* e);
-	virtual void mousePressEvent(QMouseEvent* e);
-	virtual void mouseReleaseEvent(QMouseEvent* e);
-	virtual void mouseMoveEvent(QMouseEvent* e);
-    virtual void wheelEvent(QWheelEvent* e);
-    virtual void keyPressEvent(QKeyEvent* e);
+    protected:
+	    virtual void paintEvent(QPaintEvent* e);
+	    virtual void resizeEvent(QResizeEvent* e);
+	    virtual void mousePressEvent(QMouseEvent* e);
+	    virtual void mouseReleaseEvent(QMouseEvent* e);
+	    virtual void mouseMoveEvent(QMouseEvent* e);
+        virtual void wheelEvent(QWheelEvent* e);
+        virtual void keyPressEvent(QKeyEvent* e);
 
 
-protected:
-	BasicRenderer* m_renderer;
+    protected:
+	    BasicRenderer* m_renderer;
 
-	QPoint m_prevMousePos;
-	bool m_leftMouseDown;
-	bool m_rightMouseDown;
-};
+	    QPoint m_prevMousePos;
+	    bool m_leftMouseDown;
+	    bool m_rightMouseDown;
+    };
+} // namespace qdx11
 
 #endif // DX11_WIDGET_H

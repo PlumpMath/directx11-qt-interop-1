@@ -36,23 +36,26 @@
 #include <d3dx11effect.h>
 #include <DxErr.h>
 
-#define releaseCOM(x) { if (x){x->Release(); x = 0;} }
+namespace qdx11
+{
+    #define releaseCOM(x) { if (x){x->Release(); x = 0;} }
 
-#if defined(SHOW_DXTRACE)
-    #ifndef HANDLE_ERROR
-    #define HANDLE_ERROR(x)                                     \
-    {                                                           \
-        HRESULT hr = (x);                                       \
-        if(FAILED(hr))                                          \
-        {                                                       \
-            DXTrace(__FILE__, (DWORD)__LINE__, hr, L#x, true);  \
-        }                                                       \
-    }
+    #if defined(SHOW_DXTRACE)
+        #ifndef HANDLE_ERROR
+        #define HANDLE_ERROR(x)                                     \
+        {                                                           \
+            HRESULT hr = (x);                                       \
+            if(FAILED(hr))                                          \
+            {                                                       \
+                DXTrace(__FILE__, (DWORD)__LINE__, hr, L#x, true);  \
+            }                                                       \
+        }
+        #endif
+    #else
+        #ifndef HANDLE_ERROR
+        #define HANDLE_ERROR(x) (x)
+        #endif
     #endif
-#else
-    #ifndef HANDLE_ERROR
-    #define HANDLE_ERROR(x) (x)
-    #endif
-#endif
+} // namespace qdx11
 
 #endif // DX11_UTILITY_H

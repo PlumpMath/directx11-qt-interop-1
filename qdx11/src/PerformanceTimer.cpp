@@ -29,42 +29,45 @@
 #include <Windows.h>
 #include "PerformanceTimer.h"
 
-PerformanceTimer::PerformanceTimer()
-    : m_prevTime(0),
-	  m_currTime(0),
-	  m_baseTime(0),
-	  m_secsPerCnt(0.0),
-	  m_deltaTime(-1.0)
+namespace qdx11
 {
-    __int64 cntsPerSec;
-    QueryPerformanceFrequency((LARGE_INTEGER*)&cntsPerSec);
-    m_secsPerCnt = 1.0 / static_cast<double>(cntsPerSec);
-}
+    PerformanceTimer::PerformanceTimer()
+        : m_prevTime(0),
+        m_currTime(0),
+        m_baseTime(0),
+        m_secsPerCnt(0.0),
+        m_deltaTime(-1.0)
+    {
+        __int64 cntsPerSec;
+        QueryPerformanceFrequency((LARGE_INTEGER*)&cntsPerSec);
+        m_secsPerCnt = 1.0 / static_cast<double>(cntsPerSec);
+    }
 
-float PerformanceTimer::totalTime() const
-{
-	return static_cast<float>((m_currTime - m_baseTime) * m_secsPerCnt);
-}
+    float PerformanceTimer::totalTime() const
+    {
+        return static_cast<float>((m_currTime - m_baseTime) * m_secsPerCnt);
+    }
 
-float PerformanceTimer::deltaTime() const
-{
-    return static_cast<float>(m_deltaTime);
-}
+    float PerformanceTimer::deltaTime() const
+    {
+        return static_cast<float>(m_deltaTime);
+    }
 
-void PerformanceTimer::start()
-{
-	__int64 currTime;
-	QueryPerformanceCounter((LARGE_INTEGER*)&currTime);
+    void PerformanceTimer::start()
+    {
+        __int64 currTime;
+        QueryPerformanceCounter((LARGE_INTEGER*)&currTime);
 
-	m_baseTime = currTime;
-	m_prevTime = currTime;
-}
+        m_baseTime = currTime;
+        m_prevTime = currTime;
+    }
 
-void PerformanceTimer::perFrame()
-{
-	__int64 currTime;
-	QueryPerformanceCounter((LARGE_INTEGER*)&currTime);
-	m_currTime = currTime;
-	m_deltaTime = (m_currTime - m_prevTime) * m_secsPerCnt;
-	m_prevTime = m_currTime;
-}
+    void PerformanceTimer::perFrame()
+    {
+        __int64 currTime;
+        QueryPerformanceCounter((LARGE_INTEGER*)&currTime);
+        m_currTime = currTime;
+        m_deltaTime = (m_currTime - m_prevTime) * m_secsPerCnt;
+        m_prevTime = m_currTime;
+    }
+} // namespace qdx11

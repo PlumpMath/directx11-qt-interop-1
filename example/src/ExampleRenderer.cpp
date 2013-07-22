@@ -47,8 +47,8 @@ struct Vertex
     XMFLOAT2 TexCoord;
 };
 
-ExampleRenderer::ExampleRenderer(WId hwnd, int width, int height, int frameLimiter)
-    : BasicRenderer(hwnd, width, height, frameLimiter),
+ExampleRenderer::ExampleRenderer(WId hwnd, bool enable4xMSAA, int width, int height)
+    : BasicRenderer(hwnd, enable4xMSAA, width, height),
     m_vb(0),
     m_ib(0),
     m_testQuadVB(0),
@@ -92,14 +92,6 @@ bool ExampleRenderer::init()
     createOffscreenRenderTargetView();
 
     return true;
-}
-
-void ExampleRenderer::frame()
-{
-    BasicRenderer::frame();
-    handleInput();
-    updateScene();
-    render();
 }
 
 void ExampleRenderer::handleInput()
@@ -360,8 +352,8 @@ void ExampleRenderer::createOffscreenRenderTargetView()
     texDesc.MipLevels = 1;
     texDesc.ArraySize = 1;
     texDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    texDesc.SampleDesc.Count = 1;
-    texDesc.SampleDesc.Quality = 0;
+    texDesc.SampleDesc.Count = 4;
+    texDesc.SampleDesc.Quality = m_4xMSAAQuality - 1;
     texDesc.Usage = D3D11_USAGE_DEFAULT;
     texDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
     texDesc.CPUAccessFlags = 0;

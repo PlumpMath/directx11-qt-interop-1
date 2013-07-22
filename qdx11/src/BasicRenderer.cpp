@@ -42,254 +42,256 @@
 
 #include <iostream>
 
-BasicRenderer::BasicRenderer(WId hwnd, int width, int height, int frameLimiter)
-    : m_windowHandle(hwnd),
-	  m_driverType(D3D_DRIVER_TYPE_HARDWARE),
-	  m_width(0),
-	  m_height(0),
-	  m_enable4xMSAA(false), // true
-	  m_4xMSAAQuality(0),
-	  m_device(0),
-	  m_context(0),
-	  m_swapChain(0),
-	  m_depthStencilBuffer(0),
-	  m_renderTargetView(0),
-	  m_depthStencilView(0),
-      m_frameLimiter(1.0f / frameLimiter)
+namespace qdx11
 {
-	ZeroMemory(&m_viewport, sizeof(D3D11_VIEWPORT));
-}
-
-
-bool BasicRenderer::init()
-{
-	if(!initD3D())
-		return false;
-
-	return true;
-}
-
-void BasicRenderer::frame()
-{
-    static bool timerStarted = false;
-
-    if(!timerStarted)
+    BasicRenderer::BasicRenderer(WId hwnd, bool enable4xMSAA, int width, int height)
+        : m_windowHandle(hwnd),
+	      m_driverType(D3D_DRIVER_TYPE_HARDWARE),
+	      m_width(0),
+	      m_height(0),
+	      m_enable4xMSAA(enable4xMSAA),
+	      m_4xMSAAQuality(0),
+	      m_device(0),
+	      m_context(0),
+	      m_swapChain(0),
+	      m_depthStencilBuffer(0),
+	      m_renderTargetView(0),
+	      m_depthStencilView(0)
     {
-        m_timer.start();
-        timerStarted = true;
+	    ZeroMemory(&m_viewport, sizeof(D3D11_VIEWPORT));
     }
 
-    handleInput();
-    m_timer.perFrame();
-    calculateFPS();
-    updateScene();
-    render();
-}
 
-void BasicRenderer::handleInput()
-{
-	if(m_width != m_viewportWidth || m_height != m_viewportHeight)
-	{
-		m_width = m_viewportWidth;
-		m_height = m_viewportHeight;
+    bool BasicRenderer::init()
+    {
+	    if(!initD3D())
+		    return false;
 
-		onResize();
-	}
-}
+	    return true;
+    }
 
-BasicRenderer::~BasicRenderer()
-{
-	m_swapChain->SetFullscreenState(FALSE, NULL);
+    void BasicRenderer::frame()
+    {
+        static bool timerStarted = false;
 
-	releaseCOM(m_renderTargetView);
-	releaseCOM(m_depthStencilView);
-	releaseCOM(m_swapChain);
-	releaseCOM(m_depthStencilBuffer);
+        if(!timerStarted)
+        {
+            m_timer.start();
+            timerStarted = true;
+        }
 
-	if (m_context)
-	{
-		m_context->ClearState();
-	}
+        handleInput();
+        m_timer.perFrame();
+        calculateFPS();
+        updateScene();
+        render();
+    }
 
-	releaseCOM(m_context);
-	releaseCOM(m_device);
-}
+    void BasicRenderer::handleInput()
+    {
+	    if(m_width != m_viewportWidth || m_height != m_viewportHeight)
+	    {
+		    m_width = m_viewportWidth;
+		    m_height = m_viewportHeight;
 
-void BasicRenderer::onResize()
-{
-	assert(m_context);
-	assert(m_device);
-	assert(m_swapChain);
+		    onResize();
+	    }
+    }
 
-	releaseCOM(m_renderTargetView);
-	releaseCOM(m_depthStencilView);
-	releaseCOM(m_depthStencilBuffer);
+    BasicRenderer::~BasicRenderer()
+    {
+	    m_swapChain->SetFullscreenState(FALSE, NULL);
 
-	m_swapChain->ResizeBuffers(1, m_width, m_height, DXGI_FORMAT_R8G8B8A8_UNORM, 0);
-	ID3D11Texture2D* backBuffer;
-	m_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&backBuffer));
-	m_device->CreateRenderTargetView(backBuffer, 0,&m_renderTargetView);
-	releaseCOM(backBuffer);
+	    releaseCOM(m_renderTargetView);
+	    releaseCOM(m_depthStencilView);
+	    releaseCOM(m_swapChain);
+	    releaseCOM(m_depthStencilBuffer);
 
-	D3D11_TEXTURE2D_DESC depthStencilDesc;
-	depthStencilDesc.Width = m_width;
-	depthStencilDesc.Height = m_height;
-	depthStencilDesc.MipLevels = 1;
-	depthStencilDesc.ArraySize = 1;
-	depthStencilDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	    if (m_context)
+	    {
+		    m_context->ClearState();
+	    }
 
-	if (m_enable4xMSAA)
-	{
-		depthStencilDesc.SampleDesc.Count = 4;
-		depthStencilDesc.SampleDesc.Quality = m_4xMSAAQuality - 1;
-	}
-	else
-	{
-		depthStencilDesc.SampleDesc.Count = 1;
-		depthStencilDesc.SampleDesc.Quality = 0;
-	}
+	    releaseCOM(m_context);
+	    releaseCOM(m_device);
+    }
 
-	depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
-	depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-	depthStencilDesc.CPUAccessFlags = 0;
-	depthStencilDesc.MiscFlags = 0;
+    void BasicRenderer::onResize()
+    {
+	    assert(m_context);
+	    assert(m_device);
+	    assert(m_swapChain);
 
-	m_device->CreateTexture2D(&depthStencilDesc, 0, &m_depthStencilBuffer);
-	m_device->CreateDepthStencilView(m_depthStencilBuffer, 0, &m_depthStencilView);
+	    releaseCOM(m_renderTargetView);
+	    releaseCOM(m_depthStencilView);
+	    releaseCOM(m_depthStencilBuffer);
 
-	// bind to pipeline
-	m_context->OMSetRenderTargets(1, &m_renderTargetView, m_depthStencilView);
+	    m_swapChain->ResizeBuffers(1, m_width, m_height, DXGI_FORMAT_R8G8B8A8_UNORM, 0);
+	    ID3D11Texture2D* backBuffer;
+	    m_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&backBuffer));
+	    m_device->CreateRenderTargetView(backBuffer, 0,&m_renderTargetView);
+	    releaseCOM(backBuffer);
 
-	m_viewport.TopLeftX = 0;
-	m_viewport.TopLeftY = 0;
-	m_viewport.Width = static_cast<float>(m_width);
-	m_viewport.Height = static_cast<float>(m_height);
-	m_viewport.MinDepth = 0.0f;
-	m_viewport.MaxDepth = 1.0f;
+	    D3D11_TEXTURE2D_DESC depthStencilDesc;
+	    depthStencilDesc.Width = m_width;
+	    depthStencilDesc.Height = m_height;
+	    depthStencilDesc.MipLevels = 1;
+	    depthStencilDesc.ArraySize = 1;
+	    depthStencilDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 
-	m_context->RSSetViewports(1, &m_viewport);
-}
+	    if (m_enable4xMSAA)
+	    {
+		    depthStencilDesc.SampleDesc.Count = 4;
+		    depthStencilDesc.SampleDesc.Quality = m_4xMSAAQuality - 1;
+	    }
+	    else
+	    {
+		    depthStencilDesc.SampleDesc.Count = 1;
+		    depthStencilDesc.SampleDesc.Quality = 0;
+	    }
 
-bool BasicRenderer::initD3D()
-{
-	unsigned int createDeviceFlags = 0;
+	    depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
+	    depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	    depthStencilDesc.CPUAccessFlags = 0;
+	    depthStencilDesc.MiscFlags = 0;
 
-#	if defined(DEBUG) || defined(_DEBUG)
-	createDeviceFlags  |= D3D11_CREATE_DEVICE_DEBUG;
-#	endif
+	    m_device->CreateTexture2D(&depthStencilDesc, 0, &m_depthStencilBuffer);
+	    m_device->CreateDepthStencilView(m_depthStencilBuffer, 0, &m_depthStencilView);
 
-	D3D_FEATURE_LEVEL featureLevel;
-	HRESULT hr = D3D11CreateDevice(
-		0,
-		m_driverType,
-		0,
-		createDeviceFlags,
-		0, 0,
-		D3D11_SDK_VERSION,
-		&m_device,
-		&featureLevel,
-		&m_context);
+	    // bind to pipeline
+	    m_context->OMSetRenderTargets(1, &m_renderTargetView, m_depthStencilView);
 
-	if (FAILED(hr))
-	{
-		return false;
-	}
+	    m_viewport.TopLeftX = 0;
+	    m_viewport.TopLeftY = 0;
+	    m_viewport.Width = static_cast<float>(m_width);
+	    m_viewport.Height = static_cast<float>(m_height);
+	    m_viewport.MinDepth = 0.0f;
+	    m_viewport.MaxDepth = 1.0f;
 
-	if (featureLevel != D3D_FEATURE_LEVEL_11_0)
-	{
-		return false;
-	}
+	    m_context->RSSetViewports(1, &m_viewport);
+    }
 
-	m_device->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, 4, &m_4xMSAAQuality);
-	assert(m_4xMSAAQuality > 0);
+    bool BasicRenderer::initD3D()
+    {
+	    unsigned int createDeviceFlags = 0;
 
-	DXGI_SWAP_CHAIN_DESC swapChainDesc;
-	swapChainDesc.BufferDesc.Width = m_width;
-	swapChainDesc.BufferDesc.Height = m_height;
-	swapChainDesc.BufferDesc.RefreshRate.Numerator = 60;
-	swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
-	swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-	swapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+    #	if defined(DEBUG) || defined(_DEBUG)
+	    createDeviceFlags  |= D3D11_CREATE_DEVICE_DEBUG;
+    #	endif
 
-	if( m_enable4xMSAA )
-	{
-		swapChainDesc.SampleDesc.Count   = 4;
-		swapChainDesc.SampleDesc.Quality = m_4xMSAAQuality-1;
-	}
-	else
-	{
-		swapChainDesc.SampleDesc.Count   = 1;
-		swapChainDesc.SampleDesc.Quality = 0;
-	}
+	    D3D_FEATURE_LEVEL featureLevel;
+	    HRESULT hr = D3D11CreateDevice(
+		    0,
+		    m_driverType,
+		    0,
+		    createDeviceFlags,
+		    0, 0,
+		    D3D11_SDK_VERSION,
+		    &m_device,
+		    &featureLevel,
+		    &m_context);
 
-	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	swapChainDesc.BufferCount = 1;
-	swapChainDesc.OutputWindow = m_windowHandle;
-	swapChainDesc.Windowed = true;
-	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-	swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+	    if (FAILED(hr))
+	    {
+		    return false;
+	    }
 
-	IDXGIDevice* dxgiDevice = 0;
-	m_device->QueryInterface(__uuidof(IDXGIDevice), (void**)&dxgiDevice);
+	    if (featureLevel != D3D_FEATURE_LEVEL_11_0)
+	    {
+		    return false;
+	    }
 
-	IDXGIDevice* dxgiAdapter = 0;
-	dxgiDevice->GetParent(__uuidof(IDXGIAdapter), (void**)&dxgiAdapter);
+	    m_device->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, 4, &m_4xMSAAQuality);
+	    assert(m_4xMSAAQuality > 0);
 
-	IDXGIFactory* dxgiFactory = 0;
-	dxgiAdapter->GetParent(__uuidof(IDXGIFactory), (void**)&dxgiFactory);
+	    DXGI_SWAP_CHAIN_DESC swapChainDesc;
+	    swapChainDesc.BufferDesc.Width = m_width;
+	    swapChainDesc.BufferDesc.Height = m_height;
+	    swapChainDesc.BufferDesc.RefreshRate.Numerator = 60;
+	    swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
+	    swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	    swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+	    swapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
 
-	dxgiFactory->CreateSwapChain(m_device, &swapChainDesc, &m_swapChain);
+	    if( m_enable4xMSAA )
+	    {
+		    swapChainDesc.SampleDesc.Count   = 4;
+		    swapChainDesc.SampleDesc.Quality = m_4xMSAAQuality-1;
+	    }
+	    else
+	    {
+		    swapChainDesc.SampleDesc.Count   = 1;
+		    swapChainDesc.SampleDesc.Quality = 0;
+	    }
 
-	releaseCOM(dxgiDevice);
-	releaseCOM(dxgiAdapter);
-	releaseCOM(dxgiFactory);
+	    swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+	    swapChainDesc.BufferCount = 1;
+	    swapChainDesc.OutputWindow = m_windowHandle;
+	    swapChainDesc.Windowed = true;
+	    swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+	    swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
-	onResize();
+	    IDXGIDevice* dxgiDevice = 0;
+	    m_device->QueryInterface(__uuidof(IDXGIDevice), (void**)&dxgiDevice);
 
-	return true;
-}
+	    IDXGIDevice* dxgiAdapter = 0;
+	    dxgiDevice->GetParent(__uuidof(IDXGIAdapter), (void**)&dxgiAdapter);
 
-float BasicRenderer::aspectRatio() const
-{
-	return static_cast<float>(m_width) / m_height;
-}
+	    IDXGIFactory* dxgiFactory = 0;
+	    dxgiAdapter->GetParent(__uuidof(IDXGIFactory), (void**)&dxgiFactory);
 
-void BasicRenderer::calculateFPS()
-{
-	static int frameCount = 0;
-	static float elapsedTime = 0.0f;
+	    dxgiFactory->CreateSwapChain(m_device, &swapChainDesc, &m_swapChain);
 
-	++frameCount;
+	    releaseCOM(dxgiDevice);
+	    releaseCOM(dxgiAdapter);
+	    releaseCOM(dxgiFactory);
 
-	// compute averages over one second period
-    if((m_timer.totalTime() - elapsedTime) >= 1.0f)
-	{
-		float fps = static_cast<float>(frameCount);
-		float millisecsPerFrame = 1000.0f / fps;
-		emit fpsChanged(fps, millisecsPerFrame);
+	    onResize();
 
-		frameCount = 0;
-		elapsedTime += 1.0f;
-	}
-}
+	    return true;
+    }
 
-void BasicRenderer::setViewportWidth(int width)
-{
-    m_viewportWidth = width;
-}
+    float BasicRenderer::aspectRatio() const
+    {
+	    return static_cast<float>(m_width) / m_height;
+    }
 
-int BasicRenderer::viewportWidth()
-{
-    return m_viewportWidth;
-}
+    void BasicRenderer::calculateFPS()
+    {
+	    static int frameCount = 0;
+	    static float elapsedTime = 0.0f;
 
-void BasicRenderer::setViewportHeight(int height)
-{
-    m_viewportHeight = height;
-}
+	    ++frameCount;
 
-int BasicRenderer::viewportHeight()
-{
-    return m_viewportHeight;
-}
+	    // compute averages over one second period
+        if((m_timer.totalTime() - elapsedTime) >= 1.0f)
+	    {
+		    float fps = static_cast<float>(frameCount);
+		    float millisecsPerFrame = 1000.0f / fps;
+		    emit fpsChanged(fps, millisecsPerFrame);
+
+		    frameCount = 0;
+		    elapsedTime += 1.0f;
+	    }
+    }
+
+    void BasicRenderer::setViewportWidth(int width)
+    {
+        m_viewportWidth = width;
+    }
+
+    int BasicRenderer::viewportWidth()
+    {
+        return m_viewportWidth;
+    }
+
+    void BasicRenderer::setViewportHeight(int height)
+    {
+        m_viewportHeight = height;
+    }
+
+    int BasicRenderer::viewportHeight()
+    {
+        return m_viewportHeight;
+    }
+} // namespace qdx11

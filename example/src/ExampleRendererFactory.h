@@ -34,13 +34,13 @@
 /**
 * @brief Implements the RendererFactory interface.
 */
-class ExampleRendererFactory : public IRendererFactory
+class ExampleRendererFactory : public qdx11::IRendererFactory
 {
 public:
-    ExampleRendererFactory(int width, int height, int frameLimiter);
+    ExampleRendererFactory(int width, int height);
     ~ExampleRendererFactory();
 
-    virtual BasicRenderer* create(WId windowHandle);
+    virtual qdx11::BasicRenderer* create(WId windowHandle);
 };
 
 #endif // EXAMPLE_RENDERER_FACTORY_H

@@ -36,79 +36,82 @@
 #include <iostream>
 #include <sstream>
 
-Dx11Widget::Dx11Widget(IRendererFactory* factory, QWidget* parent /* = NULL */, Qt::WFlags flags /* = 0 */)
-	: QWidget(parent, flags),
-	  m_leftMouseDown(false),
-	  m_rightMouseDown(false)
+namespace qdx11
 {
-    m_renderer = factory->create(winId());
+    Dx11Widget::Dx11Widget(IRendererFactory* factory, QWidget* parent /* = NULL */, Qt::WFlags flags /* = 0 */)
+	    : QWidget(parent, flags),
+	      m_leftMouseDown(false),
+	      m_rightMouseDown(false)
+    {
+        m_renderer = factory->create(winId());
 
-    setAttribute(Qt::WA_PaintOnScreen, true);
-    setAttribute(Qt::WA_NativeWindow, true);
+        setAttribute(Qt::WA_PaintOnScreen, true);
+        setAttribute(Qt::WA_NativeWindow, true);
 
-    QTimer* timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-    timer->start(0);
+        QTimer* timer = new QTimer(this);
+        connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+        timer->start(0);
 
-    setFocus();
-}
+        setFocus();
+    }
 
-Dx11Widget::~Dx11Widget()
-{
-	if(m_renderer)
-		delete m_renderer;
-}
+    Dx11Widget::~Dx11Widget()
+    {
+	    if(m_renderer)
+		    delete m_renderer;
+    }
 
-void Dx11Widget::paintEvent(QPaintEvent* event)
-{
-	m_renderer->frame();
-}
+    void Dx11Widget::paintEvent(QPaintEvent* event)
+    {
+	    m_renderer->frame();
+    }
 
-void Dx11Widget::resizeEvent(QResizeEvent* event)
-{
-	m_renderer->setViewportWidth(width());
-	m_renderer->setViewportHeight(height());
-    update();
-}
+    void Dx11Widget::resizeEvent(QResizeEvent* event)
+    {
+	    m_renderer->setViewportWidth(width());
+	    m_renderer->setViewportHeight(height());
+        update();
+    }
 
-void Dx11Widget::mousePressEvent(QMouseEvent* e)
-{
-    setFocus();
+    void Dx11Widget::mousePressEvent(QMouseEvent* e)
+    {
+        setFocus();
 
-	if (e->button() == Qt::LeftButton)
-	{
-		m_leftMouseDown = true;
-	} 
-	else if (e->button() == Qt::RightButton)
-	{
-		m_rightMouseDown = true;
-	}
-}
+	    if (e->button() == Qt::LeftButton)
+	    {
+		    m_leftMouseDown = true;
+	    } 
+	    else if (e->button() == Qt::RightButton)
+	    {
+		    m_rightMouseDown = true;
+	    }
+    }
 
-void Dx11Widget::mouseReleaseEvent(QMouseEvent* e)
-{
-	if (e->button() == Qt::LeftButton)
-	{
-		m_leftMouseDown = false;
-	}
+    void Dx11Widget::mouseReleaseEvent(QMouseEvent* e)
+    {
+	    if (e->button() == Qt::LeftButton)
+	    {
+		    m_leftMouseDown = false;
+	    }
 
-	if (e->button() == Qt::RightButton)
-	{
-		m_rightMouseDown = false;
-	}
-}
+	    if (e->button() == Qt::RightButton)
+	    {
+		    m_rightMouseDown = false;
+	    }
+    }
 
-void Dx11Widget::mouseMoveEvent(QMouseEvent* e)
-{
-    m_prevMousePos = e->pos();
-}
+    void Dx11Widget::mouseMoveEvent(QMouseEvent* e)
+    {
+        m_prevMousePos = e->pos();
+    }
 
-void Dx11Widget::wheelEvent(QWheelEvent* e)
-{
+    void Dx11Widget::wheelEvent(QWheelEvent* e)
+    {
 
-}
+    }
 
-void Dx11Widget::keyPressEvent(QKeyEvent* e)
-{
+    void Dx11Widget::keyPressEvent(QKeyEvent* e)
+    {
 
-}
+    }
+} // namespace qdx11

@@ -45,9 +45,9 @@ public:
 	virtual ~Dx11Viewer();
 
 protected:
-	Dx11Widget* m_dx11Widget;
+	qdx11::Dx11Widget* m_dx11Widget;
     Ui::Dx11ViewerClass ui;
-    IRendererFactory* m_rendererFactory;
+    qdx11::IRendererFactory* m_rendererFactory;
 };
 
 #endif // DX11_VIEWER_H

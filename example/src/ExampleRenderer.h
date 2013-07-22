@@ -34,10 +34,10 @@
 /**
 * @brief The example DirectX11 Implementation with vbo, ibo and shader.
 */
-class ExampleRenderer : public BasicRenderer
+class ExampleRenderer : public qdx11::BasicRenderer
 {
 public:
-    ExampleRenderer(WId hwnd, int width, int height, int frameLimiter = 60);
+    ExampleRenderer(WId hwnd, bool enable4xMSAA, int width, int height);
     virtual ~ExampleRenderer();
 
     void setTheta(float value);
@@ -47,8 +47,6 @@ public:
     float theta();
     float phi();
     float radius();
-
-    virtual void frame();
 
 protected:
     virtual bool init();

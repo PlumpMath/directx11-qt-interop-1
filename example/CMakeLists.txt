@@ -32,6 +32,8 @@ add_definitions(-D_UNICODE)
 add_definitions(-DUNICODE)
 add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /LTCG /INCREMENTAL:NO")
+
 # needs to be there if one wants supress the console window for GUI Applications on Windows
 if(WIN32 AND NOT QDX11_SHOW_DEBUG_CONSOLE)
 	set(GUI_TYPE WIN32)

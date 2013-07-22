@@ -29,24 +29,27 @@
 #ifndef QDX11_EXPORT_H
 #define QDX11_EXPORT_H
 
-#if defined(_MSC_VER)
-    #pragma warning( disable : 4244 )
-    #pragma warning( disable : 4251 )
-    #pragma warning( disable : 4275 )
-    #pragma warning( disable : 4512 )
-    #pragma warning( disable : 4267 )
-    #pragma warning( disable : 4702 )
-    #pragma warning( disable : 4511 )
-#endif
+namespace qdx11
+{
+    #if defined(_MSC_VER)
+        #pragma warning( disable : 4244 )
+        #pragma warning( disable : 4251 )
+        #pragma warning( disable : 4275 )
+        #pragma warning( disable : 4512 )
+        #pragma warning( disable : 4267 )
+        #pragma warning( disable : 4702 )
+        #pragma warning( disable : 4511 )
+    #endif
 
-#if defined(_MSC_VER) || defined(__CYGWIN__) || defined(__MINGW32__) || defined( __BCPLUSPLUS__)  || defined( __MWERKS__)
-    #  if defined( QDX11_LIBRARY )
-    #    define QDX11_API __declspec(dllexport)
-    #  else
-    #    define QDX11_API __declspec(dllimport)
-    #  endif
-#else
-    #  define QDX11_API
-#endif
+    #if defined(_MSC_VER) || defined(__CYGWIN__) || defined(__MINGW32__) || defined( __BCPLUSPLUS__)  || defined( __MWERKS__)
+        #  if defined( QDX11_LIBRARY )
+        #    define QDX11_API __declspec(dllexport)
+        #  else
+        #    define QDX11_API __declspec(dllimport)
+        #  endif
+    #else
+        #  define QDX11_API
+    #endif
+} // namespace qdx11
 
 #endif // QDX11_EXPORT_H

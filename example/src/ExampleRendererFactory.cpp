@@ -29,8 +29,10 @@
 #include "ExampleRendererFactory.h"
 #include "ExampleRenderer.h"
 
-ExampleRendererFactory::ExampleRendererFactory(int width, int height, int frameLimiter)
-    : IRendererFactory(width, height, frameLimiter)
+using namespace qdx11;
+
+ExampleRendererFactory::ExampleRendererFactory(int width, int height)
+    : IRendererFactory(width, height)
 {
 
 }
@@ -42,5 +44,5 @@ ExampleRendererFactory::~ExampleRendererFactory()
 
 BasicRenderer* ExampleRendererFactory::create(WId windowHandle)
 {
-    return new ExampleRenderer(windowHandle, m_width, m_height, m_frameLimiter);
+    return new ExampleRenderer(windowHandle, true, m_width, m_height);
 }

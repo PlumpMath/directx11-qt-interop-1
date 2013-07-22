@@ -43,55 +43,57 @@
 
 #include "Export.h"
 
-class QDX11_API BasicRenderer : public QObject
+namespace qdx11
 {
-	Q_OBJECT
+    class QDX11_API BasicRenderer : public QObject
+    {
+	    Q_OBJECT
 
-public:
-	BasicRenderer(WId hwnd, int width, int height, int frameLimiter = 60);
-	virtual ~BasicRenderer();
+    public:
+	    BasicRenderer(WId hwnd, bool enable4xMSAA, int width, int height);
+	    virtual ~BasicRenderer();
 
-    void setViewportWidth(int width);
-    int viewportWidth();
-    void setViewportHeight(int height);
-    int viewportHeight();
+        void setViewportWidth(int width);
+        int viewportWidth();
+        void setViewportHeight(int height);
+        int viewportHeight();
 
-    virtual void frame();
+        virtual void frame();
 
-signals:
-	void fpsChanged(float, float);
+    signals:
+	    void fpsChanged(float, float);
 
-protected:
-	virtual bool init();
-	virtual void handleInput();
-	virtual void onResize();
-	virtual void updateScene() {};
-	virtual void render() = 0;
+    protected:
+	    virtual bool init();
+	    virtual void handleInput();
+	    virtual void onResize();
+	    virtual void updateScene() {};
+	    virtual void render() = 0;
 
-	bool initD3D();
-	float aspectRatio() const;
-	void calculateFPS();
+	    bool initD3D();
+	    float aspectRatio() const;
+	    void calculateFPS();
 
-protected:
-	WId m_windowHandle;
-	int m_width;
-	int m_height;
-	unsigned int m_4xMSAAQuality;
-	bool m_enable4xMSAA;
-	PerformanceTimer m_timer;
-    float m_frameLimiter;
+    protected:
+	    WId m_windowHandle;
+	    int m_width;
+	    int m_height;
+	    unsigned int m_4xMSAAQuality;
+	    bool m_enable4xMSAA;
+	    PerformanceTimer m_timer;
 
-	ID3D11Device* m_device;
-	ID3D11DeviceContext* m_context;
-	IDXGISwapChain* m_swapChain;
-	ID3D11Texture2D* m_depthStencilBuffer;
-	ID3D11RenderTargetView* m_renderTargetView;
-	ID3D11DepthStencilView* m_depthStencilView;
-	D3D11_VIEWPORT m_viewport;
-	D3D_DRIVER_TYPE m_driverType;
+	    ID3D11Device* m_device;
+	    ID3D11DeviceContext* m_context;
+	    IDXGISwapChain* m_swapChain;
+	    ID3D11Texture2D* m_depthStencilBuffer;
+	    ID3D11RenderTargetView* m_renderTargetView;
+	    ID3D11DepthStencilView* m_depthStencilView;
+	    D3D11_VIEWPORT m_viewport;
+	    D3D_DRIVER_TYPE m_driverType;
 
-    int m_viewportWidth;
-    int m_viewportHeight;
-};
+        int m_viewportWidth;
+        int m_viewportHeight;
+    };
+} // namespace qdx11
 
 #endif // BASIC_RENDERER_H
