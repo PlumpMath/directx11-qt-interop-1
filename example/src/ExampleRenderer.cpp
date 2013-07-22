@@ -351,7 +351,7 @@ void ExampleRenderer::createOffscreenRenderTargetView()
     texDesc.Height = m_height;
     texDesc.MipLevels = 1;
     texDesc.ArraySize = 1;
-    texDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+    texDesc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
     texDesc.SampleDesc.Count = 4;
     texDesc.SampleDesc.Quality = m_4xMSAAQuality - 1;
     texDesc.Usage = D3D11_USAGE_DEFAULT;
