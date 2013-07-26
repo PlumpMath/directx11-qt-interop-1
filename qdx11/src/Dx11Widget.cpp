@@ -85,6 +85,8 @@ namespace qdx11
 	    {
 		    m_rightMouseDown = true;
 	    }
+
+        m_prevMousePos = e->pos();
     }
 
     void Dx11Widget::mouseReleaseEvent(QMouseEvent* e)
