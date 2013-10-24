@@ -37,7 +37,7 @@
 
 set(DX11_FXC_FLAGS_DEBUG /Fc /Od /Zi /T fx_5_0 /Fo CACHE STRING "fxc flags")
 set(DX11_FXC_FLAGS_RELEASE /T fx_5_0 /Fo CACHE STRING "fxc flags")
-set(DX11_FXC_BUILD_TYPE "debug" CACHE STRING "build type")
+set(DX11_FXC_BUILD_TYPE "release" CACHE STRING "build type")
 SET_PROPERTY(CACHE DX11_FXC_BUILD_TYPE PROPERTY STRINGS release debug)
 
 find_program(DX11_FXC
