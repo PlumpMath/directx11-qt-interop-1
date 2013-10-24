@@ -45,6 +45,9 @@
 
 namespace qdx11
 {
+    /**
+    * @brief Base Class for  context creation, frame stats, swapChain and resizement functionality.
+    */
     class QDX11_API BasicRenderer : public QObject
     {
 	    Q_OBJECT
