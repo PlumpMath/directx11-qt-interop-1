@@ -33,10 +33,8 @@
 
 // windows
 #include <Windows.h>
-#include <D3DX11.h>
 #include <d3dx11effect.h>
-#include <xnamath.h>
-#include <DxErr.h>
+#include <DirectXMath.h>
 
 #include "Dx11Utility.h"
 #include "PerformanceTimer.h"

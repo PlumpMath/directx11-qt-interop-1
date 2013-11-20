@@ -44,5 +44,5 @@ ExampleRendererFactory::~ExampleRendererFactory()
 
 BasicRenderer* ExampleRendererFactory::create(WId windowHandle)
 {
-    return new ExampleRenderer(windowHandle, true, m_width, m_height);
+    return new ExampleRenderer(windowHandle, false, m_width, m_height);
 }

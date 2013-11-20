@@ -26,7 +26,7 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-macro(qt4_auto_wrap outfiles)
+macro(qt5_auto_wrap outfiles)
     # clear accumulating variables
     unset(moc_headers)
     unset(ui_files)
@@ -57,10 +57,10 @@ macro(qt4_auto_wrap outfiles)
     endforeach()
     
     # use standard functions to handle these files
-    QT4_WRAP_CPP(${outfiles} ${moc_headers})
-    QT4_WRAP_UI(${outfiles} ${ui_files})
-    QT4_ADD_RESOURCES(${outfiles} ${qrc_files})
+    QT5_WRAP_CPP(${outfiles} ${moc_headers})
+    QT5_WRAP_UI(${outfiles} ${ui_files})
+    QT5_ADD_RESOURCES(${outfiles} ${qrc_files})
     
     # add include directory for generated ui_*.h files
     include_directories(${CMAKE_CURRENT_BINARY_DIR})
-endmacro(qt4_auto_wrap)
+endmacro(qt5_auto_wrap)

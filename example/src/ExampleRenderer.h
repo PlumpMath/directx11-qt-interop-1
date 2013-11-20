@@ -31,6 +31,8 @@
 
 #include <qdx11/BasicRenderer.h>
 
+using namespace DirectX;
+
 /**
 * @brief The example DirectX11 Implementation with vbo, ibo and shader.
 */
@@ -62,7 +64,6 @@ private:
     void createTestQuadGeometryBuffers();
     void loadFX();
 
-    void screenshot();
     void renderTestQuad();
     void renderCube();
 

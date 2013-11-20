@@ -40,6 +40,9 @@
 #include <string>
 #include <iostream>
 
+// qdx11
+#include <qdx11/Dx11Utility.h>
+
 struct Vertex
 {
     XMFLOAT3 Position;
@@ -130,7 +133,6 @@ void ExampleRenderer::render()
     m_context->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
     renderCube(); // render cube to offscreen texture
-    //screenshot(); // debug render-to-texture
 
     // reset to backbuffer
     renderTargets[0] = m_renderTargetView;
@@ -142,7 +144,6 @@ void ExampleRenderer::render()
     renderTestQuad(); // render offscreen texture on test quad
 
     m_swapChain->Present(0, 0);
-
 }
 
 void ExampleRenderer::renderCube()
@@ -193,6 +194,10 @@ void ExampleRenderer::renderTestQuad()
 
         m_techniqueTextured->GetPassByIndex(i)->Apply(0, m_context);
         m_context->DrawIndexed(6, 0, 0);
+
+        // unbind resource from shader to use it later again as a render target (apply applies the changes
+        m_texture->SetResource(0);
+        m_techniqueTextured->GetPassByIndex(0)->Apply(0, m_context);
     }
 }
 
@@ -221,28 +226,6 @@ void ExampleRenderer::onResize()
     XMStoreFloat4x4(&m_projectionMatrix, P);
 }
 
-void ExampleRenderer::screenshot()
-{
-    ID3D11Resource* resource;
-    if(!m_offscreenSRV)
-    {
-        return;
-    }
-    m_offscreenSRV->GetResource(&resource);
-
-    ID3D11Texture2D* tex;
-    resource->QueryInterface(&tex);
-
-    HRESULT hr = D3DX11SaveTextureToFile(m_context, tex, D3DX11_IFF_PNG, L"test.png");
-    if(FAILED(hr))
-    {
-        std::cout << "Error by writing texture to file.\n";
-    }
-
-    releaseCOM(tex);
-    releaseCOM(resource);
-}
-
 void ExampleRenderer::createGeomBuffers()
 {
     // vertex buffer
@@ -251,14 +234,14 @@ void ExampleRenderer::createGeomBuffers()
 
     Vertex vertices[] =
     {
-        {XMFLOAT3(-1.0f, -1.0f, -1.0f), magenta, XMFLOAT2(0.0f, 1.0f)},
-        {XMFLOAT3(-1.0f, +1.0f, -1.0f), blue, XMFLOAT2(0.0f, 0.0f)},
-        {XMFLOAT3(+1.0f, +1.0f, -1.0f), blue, XMFLOAT2(1.0f, 0.0f)},
-        {XMFLOAT3(+1.0f, -1.0f, -1.0f), magenta, XMFLOAT2(1.0f, 1.0f)},
-        {XMFLOAT3(-1.0f, -1.0f, +1.0f), magenta, XMFLOAT2(0.0f, 1.0f)},
-        {XMFLOAT3(-1.0f, +1.0f, +1.0f), blue, XMFLOAT2(0.0f, 0.0f)},
-        {XMFLOAT3(+1.0f, +1.0f, +1.0f), blue, XMFLOAT2(1.0f, 0.0f)},
-        {XMFLOAT3(+1.0f, -1.0f, +1.0f), magenta, XMFLOAT2(1.0f, 1.0f)}
+        {XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT4(magenta), XMFLOAT2(0.0f, 1.0f)},
+        {XMFLOAT3(-1.0f, +1.0f, -1.0f), XMFLOAT4(blue), XMFLOAT2(0.0f, 0.0f)},
+        {XMFLOAT3(+1.0f, +1.0f, -1.0f), XMFLOAT4(blue), XMFLOAT2(1.0f, 0.0f)},
+        {XMFLOAT3(+1.0f, -1.0f, -1.0f), XMFLOAT4(magenta), XMFLOAT2(1.0f, 1.0f)},
+        {XMFLOAT3(-1.0f, -1.0f, +1.0f), XMFLOAT4(magenta), XMFLOAT2(0.0f, 1.0f)},
+        {XMFLOAT3(-1.0f, +1.0f, +1.0f), XMFLOAT4(blue), XMFLOAT2(0.0f, 0.0f)},
+        {XMFLOAT3(+1.0f, +1.0f, +1.0f), XMFLOAT4(blue), XMFLOAT2(1.0f, 0.0f)},
+        {XMFLOAT3(+1.0f, -1.0f, +1.0f), XMFLOAT4(magenta), XMFLOAT2(1.0f, 1.0f)}
     };
 
     D3D11_BUFFER_DESC vbDesc;
@@ -308,10 +291,10 @@ void ExampleRenderer::createTestQuadGeometryBuffers()
 
     Vertex vertices[] =
     {
-        {XMFLOAT3(0.0f, -1.0f, 0.0f), magenta, XMFLOAT2(0.0f, 1.0f)},
-        {XMFLOAT3(0.0f, 0.0f, 0.0f), blue, XMFLOAT2(0.0f, 0.0f)},
-        {XMFLOAT3(1.0f, 0.0f, 0.0f), blue, XMFLOAT2(1.0f, 0.0f)},
-        {XMFLOAT3(+1.0f, -1.0f, 0.0f), magenta, XMFLOAT2(1.0f, 1.0f)},
+        {XMFLOAT3(0.0f, -1.0f, 0.0f), XMFLOAT4(magenta), XMFLOAT2(0.0f, 1.0f)},
+        {XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT4(blue), XMFLOAT2(0.0f, 0.0f)},
+        {XMFLOAT3(1.0f, 0.0f, 0.0f), XMFLOAT4(blue), XMFLOAT2(1.0f, 0.0f)},
+        {XMFLOAT3(+1.0f, -1.0f, 0.0f), XMFLOAT4(magenta), XMFLOAT2(1.0f, 1.0f)},
     };
 
     D3D11_BUFFER_DESC vbDesc;
@@ -352,8 +335,8 @@ void ExampleRenderer::createOffscreenRenderTargetView()
     texDesc.MipLevels = 1;
     texDesc.ArraySize = 1;
     texDesc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
-    texDesc.SampleDesc.Count = 4;
-    texDesc.SampleDesc.Quality = m_4xMSAAQuality - 1;
+    texDesc.SampleDesc.Count = 1;
+    texDesc.SampleDesc.Quality = 0;
     texDesc.Usage = D3D11_USAGE_DEFAULT;
     texDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
     texDesc.CPUAccessFlags = 0;

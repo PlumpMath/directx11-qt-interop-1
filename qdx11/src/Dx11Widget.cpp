@@ -38,7 +38,7 @@
 
 namespace qdx11
 {
-    Dx11Widget::Dx11Widget(IRendererFactory* factory, QWidget* parent /* = NULL */, Qt::WFlags flags /* = 0 */)
+    Dx11Widget::Dx11Widget(IRendererFactory* factory, QWidget* parent /* = NULL */, Qt::WindowFlags flags /* = 0 */)
 	    : QWidget(parent, flags),
 	      m_leftMouseDown(false),
 	      m_rightMouseDown(false)

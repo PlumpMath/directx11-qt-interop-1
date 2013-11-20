@@ -27,12 +27,12 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 // qt
-#include <QtGui/QApplication>
+#include <QtWidgets/QApplication>
 #include <QTranslator>
 #include <QLibraryInfo>
 #include <QLocale>
-#include <QMainWindow>
-#include <QLabel>
+#include <QtWidgets/QMainWindow>
+#include <QtWidgets/QLabel>
 
 // own
 #include "Dx11Viewer.h"

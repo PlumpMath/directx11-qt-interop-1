@@ -30,16 +30,15 @@
 #define DX11_UTILITY_H
 
 #include <Windows.h>
-#include <xnamath.h>
+#include <DirectXMath.h>
 
-#include <D3DX11.h>
 #include <d3dx11effect.h>
-#include <DxErr.h>
 
 namespace qdx11
 {
     #define releaseCOM(x) { if (x){x->Release(); x = 0;} }
 
+    // deprecated
     #if defined(SHOW_DXTRACE)
         #ifndef HANDLE_ERROR
         #define HANDLE_ERROR(x)                                     \

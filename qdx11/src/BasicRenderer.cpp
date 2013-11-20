@@ -47,8 +47,8 @@ namespace qdx11
     BasicRenderer::BasicRenderer(WId hwnd, bool enable4xMSAA, int width, int height)
         : m_windowHandle(hwnd),
 	      m_driverType(D3D_DRIVER_TYPE_HARDWARE),
-	      m_width(0),
-	      m_height(0),
+	      m_width(1),
+	      m_height(1),
 	      m_enable4xMSAA(enable4xMSAA),
 	      m_4xMSAAQuality(0),
 	      m_device(0),
@@ -226,7 +226,7 @@ namespace qdx11
 
 	    swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	    swapChainDesc.BufferCount = 1;
-	    swapChainDesc.OutputWindow = m_windowHandle;
+	    swapChainDesc.OutputWindow = reinterpret_cast<HWND>(m_windowHandle);
 	    swapChainDesc.Windowed = true;
 	    swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 	    swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;

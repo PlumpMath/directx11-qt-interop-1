@@ -32,6 +32,10 @@ add_definitions(-D_UNICODE)
 add_definitions(-DUNICODE)
 add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 
+if(QDX11_SHOW_DXTRACE)
+	add_definitions(-DSHOW_DXTRACE)
+endif()
+
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /LTCG /INCREMENTAL:NO")
 
 # needs to be there if one wants supress the console window for GUI Applications on Windows
@@ -61,7 +65,7 @@ set(fx
 )
 
 # moc compiler
-qt4_auto_wrap(sources ${sources})
+qt5_auto_wrap(sources ${sources})
 
 add_executable(${target} ${GUI_TYPE} ${sources} ${common_sources} ${fx})
 configureDebugPostfix("d")
@@ -71,11 +75,12 @@ compileFX(${fx} ${CMAKE_SOURCE_DIR}/example)
 set(QDX11_INCLUDE ${CMAKE_SOURCE_DIR}/include)
 include_directories(${QDX11_INCLUDE})
 
+# Use the Widgets module from Qt 5.
+qt5_use_modules(${target} Widgets OpenGL)
+
 target_link_libraries(${target}
 	qdx11
 	${DX11_LIBRARIES}
-	${QT_QTMAIN_LIBRARY}
-	${QT_LIBRARIES}
 )
 
 # install .exe and generated .fxo files

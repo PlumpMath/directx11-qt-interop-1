@@ -40,7 +40,7 @@
 #include <QPainter>
 #include <QBitmap>
 
-Dx11Viewer::Dx11Viewer(QWidget* parent, Qt::WFlags flags)
+Dx11Viewer::Dx11Viewer(QWidget* parent, Qt::WindowFlags flags)
 	: QMainWindow(parent, flags)
 {
     ui.setupUi(this);

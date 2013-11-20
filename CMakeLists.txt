@@ -26,14 +26,16 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8.12)
 project(QDX11)
 set(target DX11QtInterop)
 
-add_definitions(-D_UNICODE)
 add_definitions(-DUNICODE)
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+
+# Find includes in corresponding build directories
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 #find DirectX11
 find_package(DX11 REQUIRED)
@@ -43,9 +45,10 @@ include(${CMAKE_MODULE_PATH}/common.cmake)
 #include fxc custom build step
 include(${CMAKE_MODULE_PATH}/fxc.cmake)
 
-#find Qt
-find_package(Qt4 REQUIRED)
-include(${QT_USE_FILE})
+#find Qt5
+find_package(Qt5Widgets REQUIRED)
+
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /LTCG /INCREMENTAL:NO")
 
 include_directories(${target} ${DX11_INCLUDE_DIRS})
 

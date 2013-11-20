@@ -40,7 +40,7 @@
 
 using namespace qdx11;
 
-ExampleWidget::ExampleWidget(IRendererFactory* factory, QWidget* parent /* = NULL */, Qt::WFlags flags /* = 0 */)
+ExampleWidget::ExampleWidget(IRendererFactory* factory, QWidget* parent /* = NULL */, Qt::WindowFlags flags /* = 0 */)
     : Dx11Widget(factory, parent, flags)
 {
     connect(m_renderer, SIGNAL(fpsChanged(float, float)), this, SLOT(onFPSChanged(float, float)));

@@ -55,12 +55,15 @@ set(sources
 	${header}
 )
 	
-qt4_auto_wrap(sources ${sources})
+qt5_auto_wrap(sources ${sources})
 add_library(${target} SHARED ${sources})
 include_directories(${target} ${DX11_INCLUDE_DIRS} ${HEADER_PATH})
+
+# Use the Widgets module from Qt 5.
+qt5_use_modules(${target} Widgets)
+
 target_link_libraries(${target}
 	${DX11_LIBRARIES}
-	${QT_LIBRARIES}
 )
 
 configureDebugPostfix("d")

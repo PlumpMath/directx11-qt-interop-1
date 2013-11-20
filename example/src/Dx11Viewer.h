@@ -41,7 +41,7 @@ class Dx11Viewer : public QMainWindow
 	Q_OBJECT
 
 public:
-	Dx11Viewer(QWidget* parent = 0, Qt::WFlags flags = 0);
+	Dx11Viewer(QWidget* parent = 0, Qt::WindowFlags flags = 0);
 	virtual ~Dx11Viewer();
 
 protected:

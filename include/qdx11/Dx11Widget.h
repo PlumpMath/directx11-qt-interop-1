@@ -54,7 +54,7 @@ namespace qdx11
 	    Q_DISABLE_COPY(Dx11Widget)
 
     public:
-	    Dx11Widget(IRendererFactory* factory, QWidget* parent = NULL, Qt::WFlags flags = 0);
+	    Dx11Widget(IRendererFactory* factory, QWidget* parent = NULL, Qt::WindowFlags flags = 0);
 	    virtual ~Dx11Widget();
 
 	    inline virtual QPaintEngine* paintEngine() const {return NULL;}

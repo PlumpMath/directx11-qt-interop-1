@@ -1,6 +1,8 @@
 build/*
 build_debug/*
+build_vs2012/*
 install/*
+install2012/*
 data/*
 *.lib
 *.dll
