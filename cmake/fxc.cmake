@@ -43,8 +43,7 @@ SET_PROPERTY(CACHE DX11_FXC_BUILD_TYPE PROPERTY STRINGS release debug)
 find_program(DX11_FXC
 			 fxc
 			 PATHS
-			 ${DX11_DIR}/Utilities/bin/${BINARY_DIR}
-			 ${DX11_DIR}/Utilities
+			 ${DX11_DIR}/bin/${BINARY_DIR}
 			 DOC "fx compiler")
 
 if(NOT DX11_FXC)

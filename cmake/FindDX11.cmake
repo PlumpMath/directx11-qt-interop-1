@@ -31,10 +31,10 @@
 # DX11_LIBRARIES
 # DX11_FOUND, if false, do not try to link to DirectX11
 # DX11_INCLUDE_DIRS, where to find the headers
-# DX11_DIR corresponds to the environment variable DXSDK_DIR 
+# DX11_DIR corresponds to the environment variable WINDOWS_SDK 
 #
 
-set(DX11_DIR "$ENV{DXSDK_DIR}" CACHE PATH "Location of DirectX11")
+set(DX11_DIR "$ENV{WINDOWS_SDK}" CACHE PATH "Location of DirectX11")
 
 # check if system is 32bit or 64bit
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
@@ -48,8 +48,7 @@ MACRO(DX11_FIND varname headername)
     FIND_PATH(DX11_${varname}_INCLUDE_DIR ${headername}
         PATHS
         ${DX11_DIR}/Include
-        $ENV{DXSDK_DIR}/Include
-		$ENV{DXSDK_DIR}/Samples/C++/Effects11/Inc
+        $ENV{WINDOWS_SDK}/Include/um
         DOC "Location of DirectX11 Headers"
     )
 
@@ -57,7 +56,7 @@ MACRO(DX11_FIND varname headername)
         NAMES ${varname}
         PATHS
         ${DX11_DIR}/lib/${BINARY_DIR}
-        $ENV{DXSDK_DIR}/lib
+        $ENV{WINDOWS_SDK}/lib
         DOC "Location of DirectX11 Libraries"
     )
 
@@ -72,8 +71,8 @@ MACRO(DX11_FIND_DEBUG_AND_RELEASE varname headername)
 	FIND_PATH(DX11_${varname}_INCLUDE_DIR ${headername}
         PATHS
         ${DX11_DIR}/Include
-        $ENV{DXSDK_DIR}/Include
-		$ENV{DXSDK_DIR}/Samples/C++/Effects11/Inc
+        $ENV{WINDOWS_SDK}/Include/um
+		$ENV{EFFECT11_DIR}/inc
         DOC "Location of DirectX11 Headers"
     )
 
@@ -81,15 +80,17 @@ MACRO(DX11_FIND_DEBUG_AND_RELEASE varname headername)
         NAMES ${varname}
         PATHS
         ${DX11_DIR}/lib/${BINARY_DIR}
-        $ENV{DXSDK_DIR}/lib
+        $ENV{WINDOWS_SDK}/lib
+		$ENV{EFFECT11_DIR}/bin/Desktop_2012/${BINARY_DIR}/Release
         DOC "Location of DirectX11 Libraries"
     )
 	
 	FIND_LIBRARY(DX11_${varname}_LIBRARY_DEBUG
-        NAMES ${varname}d
+        NAMES ${varname}
         PATHS
         ${DX11_DIR}/lib/${BINARY_DIR}
-        $ENV{DXSDK_DIR}/lib
+        $ENV{WINDOWS_SDK}/lib
+		$ENV{EFFECT11_DIR}/bin/Desktop_2012/${BINARY_DIR}/Debug
         DOC "Location of DirectX11 Libraries"
     )
 	
