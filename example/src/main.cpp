@@ -47,6 +47,7 @@ int main(int argc, char** argv)
     app.installTranslator(&qtTranslator);
 
 	Dx11Viewer* viewer = new Dx11Viewer;
+
     viewer->show();
     return app.exec();
 }
